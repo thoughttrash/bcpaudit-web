@@ -1,126 +1,140 @@
-# BCP Audit Site - Local File Storage
+# HIS Business Continuity Plan (BCP) Compliance Management System
+
+A web-based application for managing Business Continuity Plan compliance audits in healthcare settings.
 
 ## Overview
-This application now supports local file storage in addition to browser-based IndexedDB storage. When you save an audit record, it will be stored both in the browser database and downloaded as a local JSON file.
 
-## Local File Storage
+This system provides a streamlined interface for different user roles to manage BCP compliance:
 
-### How It Works
-- **Save Button**: Saves the current form to both IndexedDB and downloads a local JSON file
-- **File Location**: Files are downloaded to your browser's default download folder
-- **File Naming**: `bcp_audit_[Unit]_[Date]_series_[Series].json`
+- **ICT Administrators**: Conduct audits, track compliance, generate reports (requires password)
+- **Non-ICT Users**: View compliance status, download forms, submit feedback (direct access)
 
-### File Structure
-Each saved file contains:
-```json
-{
-  "version": "1.0",
-  "savedAt": "2024-01-15T10:30:00.000Z",
-  "record": {
-    "id": 1,
-    "unit": "Ward 2A",
-    "auditDate": "2024-01-15",
-    "series": "6",
-    "signerName": "John Doe",
-    "remarks": "All forms prepared",
-    "signature": "data:image/png;base64,...",
-    "items": [...],
-    "createdAt": "2024-01-15T10:30:00.000Z"
-  },
-  "metadata": {
-    "filename": "bcp_audit_Ward_2A_2024-01-15_series_6.json",
-    "totalItems": 28,
-    "checkedItems": 15
-  }
-}
+## Features
+
+### Role-Based Access
+- **ICT Administrator**: Full access to audit functionality, dashboard, and reports
+- **Non-ICT User**: View-only access to compliance data and form downloads
+
+### ICT Administrator Features
+- Dashboard with compliance metrics
+- Audit conduction tools
+- Audit history tracking
+- Compliance reports generation
+
+### Non-ICT User Features
+- View unit compliance status
+- Download BCP manual forms
+- Submit feedback and suggestions
+- View audit history for their unit
+
+## Getting Started
+
+### Prerequisites
+- Modern web browser (Chrome, Firefox, Safari, Edge)
+- No server setup required - runs entirely in the browser
+
+### Installation
+1. Clone or download the project files
+2. Open `index.html` in your web browser
+3. The application will load immediately
+
+### Usage
+
+#### Accessing the System
+1. Open `index.html` in your browser
+2. You'll see the role selection screen with two options:
+   - **ICT Administrator** (requires password)
+   - **Non-ICT User** (direct access)
+
+#### ICT Administrator Login
+- Click on "ICT Administrator" card
+- Enter credentials in the login modal:
+  - **Username**: `admin`
+  - **Password**: `admin123`
+- Click "Login" to access the system
+
+#### Non-ICT User Access
+- Click on "Non-ICT User" card
+- Direct access to the user interface (no password required)
+
+#### Navigation
+- Use the tab navigation to switch between different sections
+- Click "Switch Role" to return to role selection
+- Click "Logout" to return to role selection
+
+## File Structure
+
+```
+online-audit-bcp-demo/
+├── index.html          # Main application file
+├── styles.css          # Custom styling
+└── README.md           # This file
 ```
 
-## Data Management Features
+## Technical Details
 
-### 📊 Data Menu Options
+### Frontend Technologies
+- **HTML5**: Structure and content
+- **CSS3**: Styling and layout
+- **TailwindCSS**: Utility-first CSS framework
+- **Vanilla JavaScript**: Client-side functionality
 
-#### Export Functions
-- **📄 Export JSON**: Export all records as a single JSON backup file
-- **📊 Export CSV**: Export summary data as CSV for analysis
-- **💾 Backup All Data**: Create a complete backup with metadata
+### Key Features
+- **Responsive Design**: Works on desktop, tablet, and mobile devices
+- **Role-Based Access Control**: Different interfaces for different user types
+- **Modal Authentication**: Secure login for ICT administrators
+- **Tab Navigation**: Clean, organized interface
+- **Notification System**: User feedback for actions
 
-#### Import Functions
-- **📥 Import JSON**: Import multiple JSON files (backup or individual records)
-- **📂 Load Record File**: Load a single record file into the form for editing
-- **🔄 Restore Backup**: Restore from a full backup (replaces all existing data)
-
-#### Management Functions
-- **🗑️ Clear All Data**: Remove all stored records (with confirmation)
-
-## Usage Instructions
-
-### Saving Records
-1. Fill out the audit form
-2. Click "Save" button
-3. Record is saved to browser database
-4. JSON file is automatically downloaded
-
-### Loading Records
-1. Click "📊 Data" → "📂 Load Record File"
-2. Select a previously saved JSON file
-3. Record loads into the form for editing
-4. Click "Save" to update the record
-
-### Importing Multiple Records
-1. Click "📊 Data" → "📥 Import JSON"
-2. Select one or more JSON files
-3. Records are added to the database
-4. View imported records in the History tab
-
-### Creating Backups
-1. Click "📊 Data" → "💾 Backup All Data"
-2. Complete backup file is downloaded
-3. Use this file for "🔄 Restore Backup" if needed
-
-## File Organization
-
-### Recommended Folder Structure
-```
-BCP Audit Site/
-├── bcp_audit_single_page_demo_indexed_db_pdf.html
-├── data/                           # Create this folder for organization
-│   ├── bcp_audit_Ward_2A_2024-01-15_series_6.json
-│   ├── bcp_audit_ICU_2024-01-16_series_7.json
-│   └── backups/
-│       └── bcp_audit_full_backup_2024-01-15-10-30-00.json
-└── README.md
-```
-
-### Manual File Organization
-Since files are downloaded to your browser's download folder, you can:
-1. Move downloaded files to the `./data/` folder
-2. Organize by date, unit, or series
-3. Create subfolders for different types of records
+### Browser Compatibility
+- Chrome 60+
+- Firefox 55+
+- Safari 12+
+- Edge 79+
 
 ## Security Notes
-- All data is stored locally in your browser
-- Files contain sensitive healthcare information
-- Keep backup files secure and encrypted if needed
-- Consider using a secure folder for sensitive data
 
-## Browser Compatibility
-- Works with all modern browsers that support IndexedDB
-- File downloads work in Chrome, Firefox, Safari, Edge
-- Mobile browsers may have different download behaviors
+- This is a demo application with hardcoded credentials
+- In production, implement proper authentication and authorization
+- Store sensitive data securely
+- Use HTTPS in production environments
 
-## Troubleshooting
+## Demo Credentials
 
-### Files Not Downloading
-- Check browser download settings
-- Ensure popup blockers are disabled
-- Check browser console for errors
+### ICT Administrator
+- **Username**: `admin`
+- **Password**: `admin123`
 
-### Import Not Working
-- Verify file format is valid JSON
-- Check file contains valid record data
-- Try importing one file at a time
+### Non-ICT User
+- No credentials required - direct access
 
-### Data Loss Prevention
-- Regularly create backups using "💾 Backup All Data"
-- Keep multiple copies of important records
-- Test restore functionality periodically
+## Development
+
+### Local Development
+1. Download the project files
+2. Open `index.html` in your browser
+3. Make changes to HTML, CSS, or JavaScript as needed
+4. Refresh the browser to see changes
+
+### Customization
+- Modify `styles.css` for styling changes
+- Update the JavaScript in `index.html` for functionality changes
+- Add new roles by extending the role selection interface
+
+## Future Enhancements
+
+- Database integration for persistent data storage
+- Real authentication system
+- PDF generation for reports
+- Email notifications
+- Mobile app version
+- Advanced audit forms
+- Real-time collaboration features
+
+## License
+
+This project is for demonstration purposes. Please ensure compliance with your organization's security policies before deployment.
+
+## Support
+
+For questions or issues, please refer to the code comments or create an issue in the project repository.
