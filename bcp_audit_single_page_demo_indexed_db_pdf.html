@@ -123,6 +123,7 @@
       </div>
 
       <input id="currentId" type="hidden" />
+      <input id="currentUuid" type="hidden" />
     </section>
 
     <!-- History Card -->
@@ -159,42 +160,46 @@
 
     // DB setup
     const DB_NAME = 'bcp_audit_db';
-    const DB_VER = 3; // Schema v3: add indexes without dropping stores
+    const DB_VER = 6; // Schema v6: simplify migrations; ensure store + indexes
     const STORE = 'submissions';
     let db;
     function openDB() {
       return new Promise((resolve, reject) => {
         const req = indexedDB.open(DB_NAME, DB_VER);
         req.onupgradeneeded = (e) => {
-          const d = e.target.result;
+          const dbInst = e.target.result;
+          const tx = e.target.transaction;
           const oldVersion = e.oldVersion || 0;
-          const newVersion = d.version;
-          console.log('Upgrading DB', { oldVersion, newVersion });
+          const newVersion = dbInst.version;
+          console.log('Upgrading DB (simplified ensure)', { oldVersion, newVersion });
 
-          // v1 -> v2: ensure store exists
-          if (oldVersion < 2) {
-            if (!d.objectStoreNames.contains(STORE)) {
-              d.createObjectStore(STORE, { keyPath: 'id', autoIncrement: true });
-              console.log('Created object store', STORE);
+          // Ensure store exists
+          let store;
+          if (!dbInst.objectStoreNames.contains(STORE)) {
+            store = dbInst.createObjectStore(STORE, { keyPath: 'id', autoIncrement: true });
+            console.log('Created object store', STORE);
+          } else {
+            store = tx.objectStore(STORE);
+          }
+
+          // Helper to safely create indexes if missing
+          const ensureIndex = (name, keyPath, options = { unique: false }) => {
+            const names = store.indexNames ? Array.from(store.indexNames) : [];
+            if (!names.includes(name)) {
+              try { store.createIndex(name, keyPath, options); console.log('Created index', name, 'on', keyPath); }
+              catch (err) { console.warn('createIndex failed for', name, err); }
+            } else {
+              console.log('Index exists, skipping:', name);
             }
-          }
+          };
 
-          // v2 -> v3: add indexes (non-destructive)
-          if (oldVersion < 3) {
-            const store = e.currentTarget.transaction.objectStore(STORE);
-            const ensureIndex = (name, keyPath, options = { unique: false }) => {
-              if (!store.indexNames || !Array.from(store.indexNames).includes(name)) {
-                store.createIndex(name, keyPath, options);
-                console.log('Created index', name, 'on', keyPath);
-              } else {
-                console.log('Index exists, skipping:', name);
-              }
-            };
-            ensureIndex('unit_idx', 'unit');
-            ensureIndex('auditDate_idx', 'auditDate');
-            ensureIndex('series_idx', 'series');
-            ensureIndex('createdAt_idx', 'createdAt');
-          }
+          // Ensure all indexes (id store already set)
+          ensureIndex('unit_idx', 'unit');
+          ensureIndex('auditDate_idx', 'auditDate');
+          ensureIndex('series_idx', 'series');
+          ensureIndex('createdAt_idx', 'createdAt');
+          ensureIndex('uuid_idx', 'uuid'); // keep non-unique for resilience
+          ensureIndex('unit_date_series_idx', ['unit','auditDate','series']);
         };
         req.onsuccess = () => {
           db = req.result;
@@ -260,6 +265,28 @@
     
     async function dbGet(id){ return new Promise((res,rej)=>{ const r = txStore().get(id); r.onsuccess=()=>res(r.result); r.onerror=()=>rej(r.error); }); }
     async function dbAll(){ return new Promise((res,rej)=>{ const r = txStore().getAll(); r.onsuccess=()=>res(r.result); r.onerror=()=>rej(r.error); }); }
+    async function dbFindByUuid(uuid){
+      return new Promise((resolve, reject)=>{
+        try{
+          const idx = txStore().index('uuid_idx');
+          const req = idx.get(uuid);
+          req.onsuccess = ()=> resolve(req.result || null);
+          req.onerror = ()=> reject(req.error);
+        }catch(err){ resolve(null); }
+      });
+    }
+    async function dbFindByComposite(unit, auditDate, series){
+      return new Promise((resolve, reject)=>{
+        try{
+          const idx = txStore().index('unit_date_series_idx');
+          const key = [unit, auditDate, series];
+          // de-dupe should treat any match as existing, even if multiple duplicates exist
+          const req = idx.getKey(key);
+          req.onsuccess = ()=> resolve(req.result ? true : false);
+          req.onerror = ()=> reject(req.error);
+        }catch(err){ resolve(false); }
+      });
+    }
     async function dbDel(id){ return new Promise((res,rej)=>{ const r = txStore('readwrite').delete(id); r.onsuccess=()=>res(); r.onerror=()=>rej(r.error); }); }
 
     // Items
@@ -323,6 +350,7 @@
       }));
       return {
         id: $('#currentId').value ? Number($('#currentId').value) : undefined,
+        uuid: $('#currentUuid').value || (crypto && crypto.randomUUID ? crypto.randomUUID() : (Date.now().toString(36)+Math.random().toString(36).slice(2))),
         unit: $('#unit').value.trim(),
         auditDate: $('#auditDate').value,
         series: $('#series').value.trim(),
@@ -335,6 +363,7 @@
     }
     function fillForm(data){
       $('#currentId').value = data?.id || '';
+      $('#currentUuid').value = data?.uuid || '';
       $('#unit').value = data?.unit || '';
       $('#auditDate').value = data?.auditDate || '';
       $('#series').value = data?.series || '';
@@ -839,8 +868,33 @@
               
               for (const record of records) {
                 try {
-                  // Remove the id to create new records
+                  // Normalize minimal fields used for de-dupe
+                  const unit = (record.unit || '').trim();
+                  const auditDate = record.auditDate || '';
+                  const series = (record.series || '').trim();
+
+                  // Prefer uuid when available
+                  let exists = false;
+                  if (record.uuid) {
+                    const byUuid = await dbFindByUuid(record.uuid);
+                    exists = !!byUuid; // get returns null when not found
+                  }
+                  if (!exists) {
+                    const byComposite = await dbFindByComposite(unit, auditDate, series);
+                    exists = !!byComposite; // boolean
+                  }
+
+                  if (exists) {
+                    skipped++;
+                    console.info('Duplicate skipped (import):', { unit, auditDate, series, uuid: record.uuid });
+                    continue;
+                  }
+
+                  // Remove the id to create new records; ensure uuid exists
                   const { id, ...recordData } = record;
+                  if (!recordData.uuid) {
+                    recordData.uuid = crypto && crypto.randomUUID ? crypto.randomUUID() : (Date.now().toString(36)+Math.random().toString(36).slice(2));
+                  }
                   await dbAdd(recordData);
                   imported++;
                 } catch (error) {
@@ -858,7 +912,7 @@
             }
           }
 
-          alert(`Import completed!\nImported: ${totalImported} records\nSkipped: ${totalSkipped} records`);
+          alert(`Import completed!\nImported: ${totalImported} records\nSkipped (duplicates/errors): ${totalSkipped}`);
           renderHistory();
         } catch (error) {
           console.error('Import failed:', error);
@@ -1062,7 +1116,7 @@
         const el=document.getElementById(id); if(el) el.style.display=auditor?'none':'';
       });
       if(auditor && sigPad) sigPad.off(); else if(!auditor && sigPad) sigPad.on();
-      $('#btnMode').innerText = auditor? "Switch to Editor Mode":"Switch to Auditor Mode";
+      $('#btnMode').innerText = auditor? "Switch to Auditor Mode":"Switch to Viewer Mode";
     }
 
     // Tabs
@@ -1085,6 +1139,15 @@
         const data=collectForm();
         if(!data.unit||!data.auditDate||!data.series){ alert("Please fill required fields."); return; }
         try{
+          // De-dupe check before saving new records
+          if (!data.id) {
+            const existsByUuid = data.uuid ? await dbFindByUuid(data.uuid) : null;
+            const existsByComposite = await dbFindByComposite(data.unit.trim(), data.auditDate, data.series.trim());
+            if (existsByUuid || existsByComposite) {
+              alert('Record already exists.');
+              return;
+            }
+          }
           const { recordId } = await saveRecord(data);
           alert(`Saved successfully. Record ID: ${recordId}`);
           renderHistory();
