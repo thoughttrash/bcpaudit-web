@@ -4,8 +4,14 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>HIS BCP – Data of BCP Documents & Forms (Demo)</title>
+  <!-- Google Fonts - Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <!-- TailwindCSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Chart.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.js"></script>
   <!-- Custom CSS -->
   <link rel="stylesheet" href="styles.css">
 </head>
@@ -180,21 +186,164 @@
     
     <!-- ICT Admin Content -->
     <div id="ict-content" style="display: none;">
-      <!-- Under Maintenance Page -->
-      <section class="card p-8 sm:p-12 text-center maintenance-card" role="main" aria-labelledby="maintenanceTitle">
-        <div class="max-w-md mx-auto">
-          <div class="w-20 h-20 bg-yellow-100 rounded-full flex items-center justify-center mx-auto mb-6 maintenance-icon" aria-hidden="true">
-            <svg class="w-10 h-10 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z"></path>
-            </svg>
-          </div>
-          <h2 id="maintenanceTitle" class="text-2xl font-bold text-gray-900 mb-4">Under Maintenance</h2>
-          <p class="text-gray-600 mb-6">The ICT Administrator dashboard is currently being updated. Please check back later for the full functionality.</p>
-          <div class="bg-blue-50 p-4 rounded-lg" role="status" aria-live="polite">
-            <p class="text-sm text-blue-800">Expected completion: Soon</p>
+      <div class="flex">
+        <!-- Sidebar Navigation -->
+        <div class="sidebar-container bg-white border-r border-gray-200 min-h-screen transition-all duration-300">
+          <div class="p-4 lg:p-6">
+            <div class="mb-6">
+              <h3 class="text-lg font-semibold text-gray-900 mb-4 sidebar-title">Navigation</h3>
+            </div>
+            
+            <nav class="space-y-2">
+              <button onclick="showComingSoon('Dashboard Overview')" class="sidebar-nav-item w-full flex items-center px-3 py-3 text-sm font-medium text-gray-700 rounded-lg hover:bg-gray-50 hover:text-gray-900 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2" data-tooltip="Summary of BCP status, KPIs, and recent activity" tabindex="0">
+                <span class="text-lg mr-3 flex-shrink-0">📊</span>
+                <span class="sidebar-label">Dashboard Overview</span>
+              </button>
+              <button onclick="showComingSoon('Form & Label Repository')" class="sidebar-nav-item w-full flex items-center px-3 py-3 text-sm font-medium text-gray-700 rounded-lg hover:bg-gray-50 hover:text-gray-900 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2" data-tooltip="Manage all manual forms and downtime labels by department" tabindex="0">
+                <span class="text-lg mr-3 flex-shrink-0">📂</span>
+                <span class="sidebar-label">Form & Label Repository</span>
+              </button>
+              <button onclick="showComingSoon('Preparedness Tracker')" class="sidebar-nav-item w-full flex items-center px-3 py-3 text-sm font-medium text-gray-700 rounded-lg hover:bg-gray-50 hover:text-gray-900 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2" data-tooltip="Track department readiness and form availability" tabindex="0">
+                <span class="text-lg mr-3 flex-shrink-0">✅</span>
+                <span class="sidebar-label">Preparedness Tracker</span>
+              </button>
+              <button onclick="showComingSoon('Downtime Event Log')" class="sidebar-nav-item w-full flex items-center px-3 py-3 text-sm font-medium text-gray-700 rounded-lg hover:bg-gray-50 hover:text-gray-900 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2" data-tooltip="Log planned and unplanned HIS downtime events" tabindex="0">
+                <span class="text-lg mr-3 flex-shrink-0">⚡</span>
+                <span class="sidebar-label">Downtime Event Log</span>
+              </button>
+              <button onclick="showComingSoon('Digital Audit Checklist')" class="sidebar-nav-item w-full flex items-center px-3 py-3 text-sm font-medium text-gray-700 rounded-lg hover:bg-gray-50 hover:text-gray-900 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2" data-tooltip="Conduct and store digital audit assessments" tabindex="0">
+                <span class="text-lg mr-3 flex-shrink-0">📝</span>
+                <span class="sidebar-label">Digital Audit Checklist</span>
+              </button>
+              <button onclick="showComingSoon('Compliance Analytics')" class="sidebar-nav-item w-full flex items-center px-3 py-3 text-sm font-medium text-gray-700 rounded-lg hover:bg-gray-50 hover:text-gray-900 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2" data-tooltip="View compliance scores, trends, and performance insights" tabindex="0">
+                <span class="text-lg mr-3 flex-shrink-0">📈</span>
+                <span class="sidebar-label">Compliance Analytics</span>
+              </button>
+              <button onclick="showComingSoon('Recognition & Awards')" class="sidebar-nav-item w-full flex items-center px-3 py-3 text-sm font-medium text-gray-700 rounded-lg hover:bg-gray-50 hover:text-gray-900 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2" data-tooltip="Track and showcase top-performing departments" tabindex="0">
+                <span class="text-lg mr-3 flex-shrink-0">🏅</span>
+                <span class="sidebar-label">Recognition & Awards</span>
+              </button>
+            </nav>
           </div>
         </div>
-      </section>
+
+        <!-- Main Dashboard Content -->
+        <div class="flex-1 p-4 lg:p-8">
+          <!-- Dashboard Overview -->
+          <div id="dashboard-overview">
+            <!-- Page Header -->
+            <div class="mb-8">
+              <h1 class="text-3xl lg:text-4xl font-bold text-gray-900 mb-2">Dashboard Overview</h1>
+              <p class="text-lg text-gray-600">BCP Compliance Status & Key Performance Indicators</p>
+            </div>
+
+            <!-- KPI Cards -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6 mb-8">
+              <!-- Total Forms & Labels -->
+              <div class="kpi-card bg-white rounded-xl shadow-sm border border-gray-200 p-6 hover:shadow-lg transition-all duration-300">
+                <div class="flex items-center">
+                  <div class="flex-shrink-0">
+                    <div class="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center">
+                      <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                      </svg>
+                    </div>
+                  </div>
+                  <div class="ml-4">
+                    <p class="text-sm font-medium text-gray-600 mb-1">Total Forms & Labels</p>
+                    <p class="text-2xl lg:text-3xl font-bold text-gray-900" id="totalFormsLabels">31</p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Prepared Departments -->
+              <div class="kpi-card bg-white rounded-xl shadow-sm border border-gray-200 p-6 hover:shadow-lg transition-all duration-300">
+                <div class="flex items-center">
+                  <div class="flex-shrink-0">
+                    <div class="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center">
+                      <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                      </svg>
+                    </div>
+                  </div>
+                  <div class="ml-4">
+                    <p class="text-sm font-medium text-gray-600 mb-1">Prepared Departments</p>
+                    <p class="text-2xl lg:text-3xl font-bold text-gray-900" id="preparedDepartments">85%</p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Recent Downtime Events -->
+              <div class="kpi-card bg-white rounded-xl shadow-sm border border-gray-200 p-6 hover:shadow-lg transition-all duration-300">
+                <div class="flex items-center">
+                  <div class="flex-shrink-0">
+                    <div class="w-12 h-12 bg-orange-100 rounded-xl flex items-center justify-center">
+                      <svg class="w-6 h-6 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z"></path>
+                      </svg>
+                    </div>
+                  </div>
+                  <div class="ml-4">
+                    <p class="text-sm font-medium text-gray-600 mb-1">Downtime Events</p>
+                    <p class="text-2xl lg:text-3xl font-bold text-gray-900" id="downtimeEvents">2</p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Compliance Score -->
+              <div class="kpi-card bg-white rounded-xl shadow-sm border border-gray-200 p-6 hover:shadow-lg transition-all duration-300">
+                <div class="flex items-center">
+                  <div class="flex-shrink-0">
+                    <div class="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center">
+                      <svg class="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                      </svg>
+                    </div>
+                  </div>
+                  <div class="ml-4">
+                    <p class="text-sm font-medium text-gray-600 mb-1">Compliance Score</p>
+                    <p class="text-2xl lg:text-3xl font-bold text-gray-900" id="complianceScore">32/40</p>
+                    <p class="text-sm text-green-600 font-semibold">Good</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Charts Section -->
+            <div class="grid grid-cols-1 xl:grid-cols-2 gap-6 lg:gap-8">
+              <!-- Prepared vs Unprepared Departments Pie Chart -->
+              <div class="chart-card bg-white rounded-xl shadow-sm border border-gray-200 p-6 lg:p-8">
+                <h3 class="text-xl font-semibold text-gray-900 mb-6">Department Preparedness</h3>
+                <div class="h-64 lg:h-80">
+                  <canvas id="preparednessChart"></canvas>
+                </div>
+              </div>
+
+              <!-- Downtime Events Trend Line Chart -->
+              <div class="chart-card bg-white rounded-xl shadow-sm border border-gray-200 p-6 lg:p-8">
+                <h3 class="text-xl font-semibold text-gray-900 mb-6">Downtime Events Trend</h3>
+                <div class="h-64 lg:h-80">
+                  <canvas id="downtimeTrendChart"></canvas>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Coming Soon Modal -->
+          <div id="coming-soon-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50" style="display: none;">
+            <div class="bg-white rounded-xl p-8 max-w-md mx-4 text-center shadow-2xl">
+              <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <svg class="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+              </div>
+              <h3 class="text-xl font-bold text-gray-900 mb-2" id="coming-soon-title">Coming Soon</h3>
+              <p class="text-gray-600 mb-6" id="coming-soon-message">This feature is under development and will be available soon.</p>
+              <button onclick="closeComingSoon()" class="btn btn-primary">Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
 
     <!-- User Content -->

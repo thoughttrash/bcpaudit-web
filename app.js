@@ -621,6 +621,7 @@ const EventHandlers = {
         setTimeout(() => {
           UI.hideLoadingOverlay();
           RoleManager.initializeRole('ict-admin');
+          initICTDashboard(); // Initialize the ICT dashboard with charts and KPI cards
           UI.showNotification('Login successful! Welcome back.', 'success');
         }, 500);
       }
@@ -749,6 +750,324 @@ function closeICTLogin() {
 }
 
 // ============================================================================
+// ICT DASHBOARD DATA & FUNCTIONS
+// ============================================================================
+
+// Demo data for dashboard
+const dashboardData = {
+  // Forms and Labels data (27 forms + 4 labels = 31 total)
+  formsAndLabels: [
+    // Forms (27 items)
+    { name: 'Admission Form', department: 'Emergency Department', type: 'Form' },
+    { name: 'Patient Transfer Form', department: 'ICU', type: 'Form' },
+    { name: 'Discharge Summary Form', department: 'General Ward', type: 'Form' },
+    { name: 'Medication Order Form', department: 'Pharmacy', type: 'Form' },
+    { name: 'Lab Request Form', department: 'Laboratory', type: 'Form' },
+    { name: 'Radiology Request Form', department: 'Radiology', type: 'Form' },
+    { name: 'Surgery Consent Form', department: 'Surgery', type: 'Form' },
+    { name: 'Anesthesia Form', department: 'Anesthesiology', type: 'Form' },
+    { name: 'Nursing Assessment Form', department: 'Nursing', type: 'Form' },
+    { name: 'Vital Signs Form', department: 'General Ward', type: 'Form' },
+    { name: 'Medication Administration Form', department: 'Pharmacy', type: 'Form' },
+    { name: 'Blood Transfusion Form', department: 'Laboratory', type: 'Form' },
+    { name: 'Infection Control Form', department: 'Infection Control', type: 'Form' },
+    { name: 'Quality Assurance Form', department: 'Quality Management', type: 'Form' },
+    { name: 'Incident Report Form', department: 'Risk Management', type: 'Form' },
+    { name: 'Patient Complaint Form', department: 'Patient Relations', type: 'Form' },
+    { name: 'Staff Training Form', department: 'Human Resources', type: 'Form' },
+    { name: 'Equipment Maintenance Form', department: 'Biomedical Engineering', type: 'Form' },
+    { name: 'Supply Request Form', department: 'Materials Management', type: 'Form' },
+    { name: 'Food Service Form', department: 'Nutrition Services', type: 'Form' },
+    { name: 'Housekeeping Form', department: 'Environmental Services', type: 'Form' },
+    { name: 'Security Incident Form', department: 'Security', type: 'Form' },
+    { name: 'IT Support Form', department: 'Information Technology', type: 'Form' },
+    { name: 'Finance Form', department: 'Finance', type: 'Form' },
+    { name: 'Legal Document Form', department: 'Legal Services', type: 'Form' },
+    { name: 'Research Protocol Form', department: 'Research', type: 'Form' },
+    { name: 'Education Form', department: 'Education', type: 'Form' },
+    { name: 'Volunteer Form', department: 'Volunteer Services', type: 'Form' },
+    // Labels (4 items)
+    { name: 'Specimen Downtime Label', department: 'Laboratory', type: 'Label' },
+    { name: 'Medication Downtime Label', department: 'Pharmacy', type: 'Label' },
+    { name: 'Patient Downtime Label', department: 'General Ward', type: 'Label' },
+    { name: 'Equipment Downtime Label', department: 'Biomedical Engineering', type: 'Label' }
+  ],
+
+  // Departments data (28 departments: 20 prepared, 8 unprepared)
+  departments: [
+    { name: 'Emergency Department', prepared: true },
+    { name: 'Laboratory', prepared: true },
+    { name: 'ICU', prepared: true },
+    { name: 'Pharmacy', prepared: true },
+    { name: 'General Ward', prepared: true },
+    { name: 'Radiology', prepared: true },
+    { name: 'Surgery', prepared: true },
+    { name: 'Anesthesiology', prepared: true },
+    { name: 'Nursing', prepared: true },
+    { name: 'Infection Control', prepared: true },
+    { name: 'Quality Management', prepared: true },
+    { name: 'Risk Management', prepared: true },
+    { name: 'Patient Relations', prepared: true },
+    { name: 'Human Resources', prepared: true },
+    { name: 'Biomedical Engineering', prepared: true },
+    { name: 'Materials Management', prepared: true },
+    { name: 'Nutrition Services', prepared: true },
+    { name: 'Environmental Services', prepared: true },
+    { name: 'Security', prepared: true },
+    { name: 'Information Technology', prepared: true },
+    { name: 'Finance', prepared: false },
+    { name: 'Legal Services', prepared: false },
+    { name: 'Research', prepared: false },
+    { name: 'Education', prepared: false },
+    { name: 'Volunteer Services', prepared: false },
+    { name: 'Cardiology', prepared: false },
+    { name: 'Neurology', prepared: false },
+    { name: 'Oncology', prepared: false },
+    { name: 'Pediatrics', prepared: false }
+  ],
+
+  // Downtime events data (2 events)
+  downtimeEvents: [
+    { date: '2024-01-15', department: 'Laboratory', duration: '2 hours', severity: 'Medium' },
+    { date: '2024-02-03', department: 'Pharmacy', duration: '1.5 hours', severity: 'Low' }
+  ],
+
+  // Compliance data
+  compliance: {
+    score: 32,
+    maxScore: 40,
+    status: 'Good'
+  }
+};
+
+// Chart instances
+let preparednessChart = null;
+let downtimeTrendChart = null;
+
+// Initialize dashboard charts
+function initDashboardCharts() {
+  try {
+    // Check if Chart.js is available
+    if (typeof Chart === 'undefined') {
+      console.warn('Chart.js not loaded yet, retrying in 500ms...');
+      setTimeout(initDashboardCharts, 500);
+      return;
+    }
+
+    // Check if canvas elements exist
+    const preparednessCtx = document.getElementById('preparednessChart');
+    const downtimeCtx = document.getElementById('downtimeTrendChart');
+    
+    if (!preparednessCtx || !downtimeCtx) {
+      console.warn('Chart canvas elements not found, retrying in 500ms...');
+      setTimeout(initDashboardCharts, 500);
+      return;
+    }
+
+    // Show fallback while charts are loading
+    showChartFallback();
+
+    // Prepare data for charts
+    const preparedCount = dashboardData.departments.filter(dept => dept.prepared).length;
+    const unpreparedCount = dashboardData.departments.filter(dept => !dept.prepared).length;
+
+    // Pie Chart - Department Preparedness
+    if (preparednessCtx) {
+      // Destroy existing chart if it exists
+      if (preparednessChart) {
+        preparednessChart.destroy();
+      }
+      
+      preparednessChart = new Chart(preparednessCtx, {
+        type: 'doughnut',
+        data: {
+          labels: ['Prepared', 'Unprepared'],
+          datasets: [{
+            data: [preparedCount, unpreparedCount],
+            backgroundColor: ['#10b981', '#ef4444'],
+            borderWidth: 0,
+            hoverOffset: 4
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              position: 'bottom',
+              labels: {
+                padding: 20,
+                usePointStyle: true
+              }
+            }
+          }
+        }
+      });
+    }
+
+    // Line Chart - Downtime Events Trend (past 6 months)
+    if (downtimeCtx) {
+      // Destroy existing chart if it exists
+      if (downtimeTrendChart) {
+        downtimeTrendChart.destroy();
+      }
+
+      const months = ['Sep', 'Oct', 'Nov', 'Dec', 'Jan', 'Feb'];
+      const eventCounts = [0, 0, 0, 0, 1, 1]; // Demo data for past 6 months
+
+      downtimeTrendChart = new Chart(downtimeCtx, {
+        type: 'line',
+        data: {
+          labels: months,
+          datasets: [{
+            label: 'Downtime Events',
+            data: eventCounts,
+            borderColor: '#f59e0b',
+            backgroundColor: 'rgba(245, 158, 11, 0.1)',
+            borderWidth: 3,
+            fill: true,
+            tension: 0.4,
+            pointBackgroundColor: '#f59e0b',
+            pointBorderColor: '#ffffff',
+            pointBorderWidth: 2,
+            pointRadius: 6
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              display: false
+            }
+          },
+          scales: {
+            y: {
+              beginAtZero: true,
+              ticks: {
+                stepSize: 1
+              }
+            }
+          }
+        }
+      });
+    }
+  } catch (error) {
+    console.error('Error initializing dashboard charts:', error);
+    // Don't show error notification for chart initialization issues
+    // Just log the error to console
+  }
+}
+
+// Update KPI cards with demo data
+function updateKPICards() {
+  try {
+    // Total Forms & Labels
+    const totalFormsLabels = document.getElementById('totalFormsLabels');
+    if (totalFormsLabels) {
+      totalFormsLabels.textContent = dashboardData.formsAndLabels.length;
+    }
+
+    // Prepared Departments Percentage
+    const preparedDepartments = document.getElementById('preparedDepartments');
+    if (preparedDepartments) {
+      const preparedCount = dashboardData.departments.filter(dept => dept.prepared).length;
+      const percentage = Math.round((preparedCount / dashboardData.departments.length) * 100);
+      preparedDepartments.textContent = `${percentage}%`;
+    }
+
+    // Downtime Events
+    const downtimeEvents = document.getElementById('downtimeEvents');
+    if (downtimeEvents) {
+      downtimeEvents.textContent = dashboardData.downtimeEvents.length;
+    }
+
+    // Compliance Score
+    const complianceScore = document.getElementById('complianceScore');
+    if (complianceScore) {
+      complianceScore.textContent = `${dashboardData.compliance.score}/${dashboardData.compliance.maxScore}`;
+    }
+  } catch (error) {
+    ErrorHandler.handleError(error, 'updateKPICards');
+  }
+}
+
+// Show coming soon modal
+function showComingSoon(featureName) {
+  try {
+    const modal = document.getElementById('coming-soon-modal');
+    const title = document.getElementById('coming-soon-title');
+    const message = document.getElementById('coming-soon-message');
+    
+    if (modal && title && message) {
+      title.textContent = `${featureName} - Coming Soon`;
+      
+      // Custom messages for each feature
+      const messages = {
+        'Dashboard Overview': 'The Dashboard Overview provides a comprehensive summary of BCP status, KPIs, and recent activity across all departments.',
+        'Form & Label Repository': 'The Form & Label Repository allows you to manage all manual forms and downtime labels organized by department.',
+        'Preparedness Tracker': 'The Preparedness Tracker helps monitor department readiness and form availability status.',
+        'Downtime Event Log': 'The Downtime Event Log enables logging of both planned and unplanned HIS downtime events.',
+        'Digital Audit Checklist': 'The Digital Audit Checklist provides tools to conduct and store comprehensive audit assessments.',
+        'Compliance Analytics': 'The Compliance Analytics module offers detailed compliance scores, trends, and performance insights.',
+        'Recognition & Awards': 'The Recognition & Awards system tracks and showcases top-performing departments and teams.'
+      };
+      
+      message.textContent = messages[featureName] || `The ${featureName} module is currently under development and will be available in a future update.`;
+      modal.style.display = 'flex';
+    }
+  } catch (error) {
+    ErrorHandler.handleError(error, 'showComingSoon');
+  }
+}
+
+// Close coming soon modal
+function closeComingSoon() {
+  try {
+    const modal = document.getElementById('coming-soon-modal');
+    if (modal) {
+      modal.style.display = 'none';
+    }
+  } catch (error) {
+    ErrorHandler.handleError(error, 'closeComingSoon');
+  }
+}
+
+// Initialize ICT Dashboard
+function initICTDashboard() {
+  try {
+    updateKPICards();
+    
+    // Initialize charts with a small delay to ensure Chart.js is loaded
+    setTimeout(() => {
+      initDashboardCharts();
+    }, 100);
+  } catch (error) {
+    console.error('Error initializing ICT dashboard:', error);
+    // Don't show error notification for dashboard initialization issues
+    // Just log the error to console
+  }
+}
+
+// Fallback function if Chart.js fails to load
+function showChartFallback() {
+  try {
+    const preparednessCtx = document.getElementById('preparednessChart');
+    const downtimeCtx = document.getElementById('downtimeTrendChart');
+    
+    if (preparednessCtx) {
+      preparednessCtx.innerHTML = '<div class="flex items-center justify-center h-full text-gray-500">Chart loading...</div>';
+    }
+    
+    if (downtimeCtx) {
+      downtimeCtx.innerHTML = '<div class="flex items-center justify-center h-full text-gray-500">Chart loading...</div>';
+    }
+  } catch (error) {
+    console.error('Error showing chart fallback:', error);
+  }
+}
+
+// ============================================================================
 // INITIALIZATION
 // ============================================================================
 
@@ -847,6 +1166,26 @@ const App = {
       if (loginModal) {
         loginModal.addEventListener('keydown', EventHandlers.handleModalKeydown.bind(this));
       }
+
+      // Coming soon modal close on outside click
+      const comingSoonModal = document.getElementById('coming-soon-modal');
+      if (comingSoonModal) {
+        comingSoonModal.addEventListener('click', (e) => {
+          if (e.target === comingSoonModal) {
+            closeComingSoon();
+          }
+        });
+      }
+
+      // Escape key to close coming soon modal
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+          const comingSoonModal = document.getElementById('coming-soon-modal');
+          if (comingSoonModal && comingSoonModal.style.display === 'flex') {
+            closeComingSoon();
+          }
+        }
+      });
 
     } catch (error) {
       ErrorHandler.handleError(error, 'App.initializeEventListeners');
