@@ -1,0 +1,143 @@
+/* ============================================================================
+ * ACCESSIBILITY - FOCUS INDICATORS & ACCESSIBILITY FEATURES
+ * ============================================================================ */
+
+/* Focus indicators */
+.btn:focus-visible,
+.role-card:focus-visible,
+.tab:focus-visible,
+.input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid #2563eb;
+  outline-offset: 2px;
+  box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.2);
+}
+
+/* High contrast focus for better visibility */
+.btn:focus-visible {
+  outline: 3px solid #1e40af;
+  outline-offset: 2px;
+  box-shadow: 0 0 0 6px rgba(30, 64, 175, 0.3);
+}
+
+.role-card:focus-visible {
+  outline: 3px solid #1e40af;
+  outline-offset: 3px;
+  box-shadow: 0 0 0 6px rgba(30, 64, 175, 0.3);
+}
+
+/* Sidebar focus indicators */
+.sidebar-nav-item:focus-visible {
+  outline: 2px solid #2563eb;
+  outline-offset: 2px;
+  box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1);
+}
+
+.kpi-card:focus-within {
+  outline: 2px solid #2563eb;
+  outline-offset: 2px;
+}
+
+.chart-card:focus-within {
+  outline: 2px solid #2563eb;
+  outline-offset: 2px;
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .sidebar-nav-item:hover {
+    background-color: #1f2937;
+    color: white;
+  }
+  
+  .kpi-card {
+    border-width: 2px;
+  }
+  
+  .chart-card {
+    border-width: 2px;
+  }
+  
+  .btn {
+    border: 2px solid #000;
+  }
+  
+  .btn-primary {
+    background: #000;
+    color: #fff;
+    border: 2px solid #000;
+  }
+  
+  .input, select, textarea {
+    border: 2px solid #000;
+  }
+  
+  .role-card {
+    border: 2px solid #000;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  
+  .role-card:hover {
+    transform: none;
+  }
+  
+  .btn:hover {
+    transform: none;
+  }
+  
+  .card:hover {
+    transform: none;
+  }
+  
+  .sidebar-nav-item,
+  .kpi-card,
+  .chart-card {
+    transition: none;
+  }
+  
+  .sidebar-nav-item:hover {
+    transform: none;
+  }
+  
+  .kpi-card:hover {
+    transform: none;
+  }
+}
+
+/* Print styles */
+@media print {
+  .sidebar-container {
+    display: none;
+  }
+  
+  .kpi-card,
+  .chart-card {
+    break-inside: avoid;
+    box-shadow: none;
+    border: 1px solid #000;
+  }
+}
+
+/* Dark mode support (optional) */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --border-color: rgb(63 63 70);
+    --border-light: rgb(82 82 91);
+    --text-muted: rgb(255, 255, 255);
+  }
+  .card {
+    background: rgb(39 39 42);
+    color: rgb(244 244 245);
+  }
+}

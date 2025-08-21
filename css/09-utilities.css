@@ -1,0 +1,57 @@
+/* ============================================================================
+ * UTILITIES - UTILITY CLASSES & HELPER FUNCTIONS
+ * ============================================================================ */
+
+/* Loading state */
+.loading {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* Loading spinner - Tailwind version */
+.spinner-tailwind {
+  @apply animate-spin rounded-full h-4 w-4 border-2 border-gray-300 border-t-blue-600;
+}
+
+/* Skip to main content link */
+.skip-link {
+  position: absolute;
+  top: -40px;
+  left: 6px;
+  background: #2563eb;
+  color: white;
+  padding: 8px;
+  text-decoration: none;
+  border-radius: 4px;
+  z-index: 10000;
+  transition: top 0.3s;
+}
+
+.skip-link:focus {
+  top: 6px;
+  outline: 2px solid white;
+  outline-offset: 2px;
+}
+
+/* Screen reader only text */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Improved color contrast */
+.text-zinc-600 {
+  color: #52525b !important;
+}
+
+.text-zinc-500 {
+  color: #71717a !important;
+}

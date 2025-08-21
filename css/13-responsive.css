@@ -1,0 +1,248 @@
+/* ============================================================================
+ * RESPONSIVE - RESPONSIVE DESIGN & BREAKPOINTS
+ * ============================================================================ */
+
+/* Mobile-first responsive adjustments */
+@media (max-width: 640px) {
+  /* Role selection improvements */
+  .role-card {
+    margin: 0 var(--space-sm);
+  }
+  
+  .role-card .text-center {
+    gap: var(--space-sm);
+  }
+  
+  .role-card h3 {
+    font-size: var(--font-size-lg);
+    margin-bottom: var(--space-xs);
+  }
+  
+  .role-card p {
+    font-size: var(--font-size-sm);
+    margin-bottom: var(--space-sm);
+    line-height: 1.4;
+  }
+  
+  /* Button improvements */
+  .btn {
+    padding: var(--space-sm);
+    font-size: var(--font-size-sm);
+    min-height: 2.25rem;
+  }
+  
+  /* Form improvements */
+  .input, select, textarea {
+    padding: var(--space-sm);
+    font-size: var(--font-size-sm);
+  }
+  
+  /* Card improvements */
+  .card {
+    padding: var(--space-md);
+    margin: 0 var(--space-sm);
+  }
+  
+  /* Header improvements */
+  .header-title {
+    font-size: var(--font-size-lg);
+  }
+  
+  .header-subtitle {
+    display: none;
+  }
+  
+  .header-role-badge {
+    display: none;
+  }
+  
+  /* Responsive improvements */
+  .card {
+    margin: 0 -0.5rem;
+    border-radius: 0;
+  }
+  
+  .btn {
+    padding: 0.75rem 1rem;
+    font-size: 0.875rem;
+  }
+}
+
+@media (max-width: 768px) {
+  /* Medium screen adjustments */
+  .unit-btn {
+    font-size: var(--font-size-sm);
+    padding: var(--space-sm) var(--space-md);
+  }
+  
+  .role-badge {
+    font-size: var(--font-size-xs);
+    padding: var(--space-xs) var(--space-sm);
+  }
+  
+  /* Grid adjustments */
+  .grid {
+    gap: var(--space-md);
+  }
+  
+  /* Spacing adjustments */
+  .space-y-6 > * + * {
+    margin-top: var(--space-lg);
+  }
+  
+  .space-y-4 > * + * {
+    margin-top: var(--space-md);
+  }
+  
+  .space-y-2 > * + * {
+    margin-top: var(--space-sm);
+  }
+  
+  /* Role card hover adjustments */
+  .role-card:hover {
+    transform: translateY(-2px) scale(1.01);
+  }
+  
+  .btn:hover {
+    transform: translateY(-1px);
+  }
+  
+  .card:hover {
+    transform: translateY(-1px);
+  }
+}
+
+@media (min-width: 1024px) {
+  /* Large screen enhancements */
+  .role-card:hover {
+    transform: translateY(-6px);
+    box-shadow: var(--shadow-xl);
+  }
+  
+  .btn:hover {
+    transform: translateY(-3px);
+  }
+  
+  .card:hover {
+    transform: translateY(-3px);
+  }
+}
+
+/* Large Desktop (1200px+) */
+@media (min-width: 1200px) {
+  .sidebar-container {
+    width: 280px;
+  }
+  
+  .sidebar-label {
+    opacity: 1;
+  }
+}
+
+/* Desktop (1024px - 1199px) */
+@media (max-width: 1199px) and (min-width: 1024px) {
+  .sidebar-container {
+    width: 240px;
+  }
+  
+  .sidebar-label {
+    opacity: 1;
+  }
+}
+
+/* Tablet (768px - 1023px) */
+@media (max-width: 1023px) and (min-width: 768px) {
+  .sidebar-container {
+    width: 80px;
+  }
+  
+  .sidebar-label {
+    opacity: 0;
+    position: absolute;
+    left: -9999px;
+  }
+  
+  .sidebar-title {
+    opacity: 0;
+    position: absolute;
+    left: -9999px;
+  }
+  
+  /* Show tooltips on tablet */
+  .sidebar-nav-item::after,
+  .sidebar-nav-item::before {
+    display: block;
+  }
+}
+
+/* Mobile (up to 767px) */
+@media (max-width: 767px) {
+  #ict-content .flex {
+    flex-direction: column;
+  }
+  
+  .sidebar-container {
+    width: 100%;
+    min-height: auto;
+    border-right: none;
+    border-bottom: 1px solid #e5e7eb;
+  }
+  
+  .sidebar-label {
+    opacity: 1;
+  }
+  
+  .sidebar-title {
+    opacity: 1;
+  }
+  
+  #ict-content nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+  
+  #ict-content nav button {
+    flex: 1;
+    min-width: 120px;
+  }
+
+  /* Hide tooltips on mobile */
+  .sidebar-nav-item::after,
+  .sidebar-nav-item::before {
+    display: none;
+  }
+  
+  /* Adjust KPI cards for mobile */
+  .kpi-card {
+    padding: 1rem;
+  }
+  
+  .kpi-card .text-2xl {
+    font-size: 1.5rem;
+  }
+  
+  /* Adjust chart cards for mobile */
+  .chart-card {
+    padding: 1rem;
+  }
+  
+  .chart-card h3 {
+    font-size: 1.125rem;
+  }
+}
+
+/* Extra Small Mobile (up to 480px) */
+@media (max-width: 480px) {
+  .kpi-card {
+    padding: 0.75rem;
+  }
+  
+  .chart-card {
+    padding: 0.75rem;
+  }
+  
+  .chart-card h3 {
+    font-size: 1rem;
+  }
+}

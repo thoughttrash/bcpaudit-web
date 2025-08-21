@@ -1,0 +1,152 @@
+/* ============================================================================
+ * COMPONENTS - TABLES, FORMS & SPECIAL COMPONENTS
+ * ============================================================================ */
+
+/* History table improvements */
+.history-table {
+  @apply w-full text-sm border-collapse;
+}
+
+.history-table th {
+  @apply text-left p-2 bg-gray-50 font-medium text-gray-700;
+}
+
+.history-table td {
+  @apply p-2 border-b border-gray-100;
+}
+
+/* Feedback form improvements */
+.feedback-form {
+  @apply max-w-2xl space-y-4;
+}
+
+.feedback-form .form-group {
+  @apply space-y-2;
+}
+
+/* Emergency section improvements */
+.emergency-section {
+  @apply space-y-4;
+}
+
+.emergency-card {
+  @apply p-4 rounded-lg border-l-4;
+}
+
+.emergency-card.critical {
+  @apply bg-red-50 border-red-500;
+}
+
+.emergency-card.warning {
+  @apply bg-orange-50 border-orange-500;
+}
+
+.emergency-card.info {
+  @apply bg-blue-50 border-blue-500;
+}
+
+/* Enhanced Card Animations */
+.card {
+  background: white;
+  border-radius: 0.75rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.06);
+  border: 1px solid rgb(228 228 231);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  padding: 1.5rem;
+}
+
+.card:hover {
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1), 0 4px 10px rgba(0, 0, 0, 0.06);
+  transform: translateY(-2px);
+}
+
+/* Role Card Enhanced Feedback */
+.role-card {
+  background: white;
+  border-radius: 0.75rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.06);
+  border: 1px solid rgb(228 228 231);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+  padding: 1.5rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.role-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+  transition: left 0.5s;
+}
+
+.role-card:hover::before {
+  left: 100%;
+}
+
+.role-card:hover {
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15), 0 4px 10px rgba(0, 0, 0, 0.1);
+  border-color: rgb(147 197 253);
+  transform: translateY(-4px) scale(1.02);
+}
+
+.role-card:active {
+  transform: translateY(-2px) scale(1.01);
+}
+
+/* Enhanced Header Styles */
+.sticky-header {
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+/* Enhanced Role Badge */
+.role-badge-enhanced {
+  background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+  border: 1px solid #93c5fd;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  transition: all 0.2s ease-in-out;
+}
+
+.role-badge-enhanced:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
+
+/* Breadcrumb Styles */
+.breadcrumb-item {
+  transition: color 0.2s ease-in-out;
+}
+
+.breadcrumb-item:hover {
+  color: #3b82f6;
+}
+
+/* Header Logo Animation */
+.header-logo {
+  transition: transform 0.3s ease-in-out;
+}
+
+.header-logo:hover {
+  transform: scale(1.05);
+}
+
+/* Blur effect for login modal */
+body.modal-open #roleSelection {
+  filter: blur(4px);
+  transition: filter 0.3s ease-in-out;
+}
+
+/* Ensure modal content stays sharp */
+#ictLoginModal {
+  filter: none;
+}
+
+/* Signature canvas improvements */
+#sigCanvas {
+  touch-action: none;
+}

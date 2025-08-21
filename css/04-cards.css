@@ -1,0 +1,88 @@
+/* ============================================================================
+ * CARDS - BASE CARD DESIGN & ROLE SELECTION CARDS
+ * ============================================================================ */
+
+/* Base card design */
+.card { 
+  background: #fff; 
+  border: 1px solid var(--border-color); 
+  border-radius: var(--radius-lg); 
+  box-shadow: var(--shadow-sm);
+  transition: var(--transition-normal);
+  padding: var(--space-lg);
+}
+
+.card:hover {
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
+}
+
+/* Role selection cards - Enhanced responsive design */
+.role-card {
+  background: white;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--border-color);
+  transition: var(--transition-slow);
+  cursor: pointer;
+  padding: var(--space-lg);
+  position: relative;
+  overflow: hidden;
+  
+  /* Responsive padding */
+  padding: var(--space-md);
+}
+
+@media (min-width: 640px) {
+  .role-card {
+    padding: var(--space-lg);
+  }
+}
+
+@media (min-width: 768px) {
+  .role-card {
+    padding: var(--space-xl);
+  }
+}
+
+.role-card:hover {
+  box-shadow: var(--shadow-lg);
+  border-color: var(--primary-color);
+  transform: translateY(-4px);
+}
+
+.role-card:active {
+  transform: translateY(-2px);
+}
+
+/* Role card content responsive adjustments */
+.role-card .text-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-md);
+}
+
+@media (max-width: 640px) {
+  .role-card .text-center {
+    gap: var(--space-sm);
+  }
+  
+  .role-card h3 {
+    font-size: var(--font-size-lg);
+    margin-bottom: var(--space-xs);
+  }
+  
+  .role-card p {
+    font-size: var(--font-size-sm);
+    margin-bottom: var(--space-sm);
+  }
+}
+
+/* Modern tab design */
+.tab-active { 
+  background: #eff6ff; 
+  color: var(--primary-color); 
+  border-color: #bfdbfe;
+  font-weight: 600;
+}

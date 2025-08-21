@@ -1,0 +1,37 @@
+/* ============================================================================
+ * BASE LAYOUT - HTML/BODY SETUP & PAGE ANIMATIONS
+ * ============================================================================ */
+
+html, body { 
+  height: 100%; 
+  scroll-behavior: smooth;
+}
+
+/* Page load animation */
+body {
+  opacity: 0;
+  animation: fadeIn 0.6s ease-in-out forwards;
+  overflow: hidden;
+}
+
+/* Hide scrollbar during animation */
+html {
+  overflow: hidden;
+}
+
+/* Show scrollbar after animation completes */
+body.animation-complete,
+html.animation-complete {
+  overflow: auto;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

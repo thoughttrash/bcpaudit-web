@@ -1,0 +1,28 @@
+/* ============================================================================
+ * TABS - TAB COMPONENTS & NAVIGATION
+ * ============================================================================ */
+
+/* Base tab styles */
+.tab {
+  padding: var(--space-sm) var(--space-md);
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-sm);
+  font-weight: 500;
+  transition: var(--transition-normal);
+  cursor: pointer;
+  border: 1px solid transparent;
+}
+
+.tab:hover {
+  background: var(--primary-light);
+  color: var(--primary-dark);
+  transform: translateY(-1px);
+}
+
+/* Active tab */
+.tab-active {
+  background: var(--primary-color);
+  color: white;
+  box-shadow: var(--shadow-md);
+  transform: translateY(-1px);
+}
