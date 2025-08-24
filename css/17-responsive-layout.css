@@ -1,0 +1,568 @@
+/* ============================================================================
+ * RESPONSIVE LAYOUT - MOBILE-FIRST DESIGN SYSTEM
+ * ============================================================================ */
+
+/* ============================================================================
+ * CONTAINER & GRID SYSTEM
+ * ============================================================================ */
+
+/* Main Container */
+.main-container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 1rem;
+  background: #f8fafc;
+  min-height: calc(100vh - 4rem);
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  .main-container {
+    background: #111827;
+  }
+}
+
+@media (min-width: 640px) {
+  .main-container {
+    padding: 0 1.5rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .main-container {
+    padding: 0 2rem;
+  }
+}
+
+/* Responsive Grid System */
+.grid-responsive {
+  display: grid;
+  gap: 1.5rem;
+}
+
+/* Mobile: Single Column */
+.grid-responsive {
+  grid-template-columns: 1fr;
+}
+
+/* Tablet: 2 Columns */
+@media (min-width: 768px) {
+  .grid-responsive.grid-2 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Desktop: 4 Columns */
+@media (min-width: 1024px) {
+  .grid-responsive.grid-4 {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+/* Large Desktop: 6 Columns */
+@media (min-width: 1280px) {
+  .grid-responsive.grid-6 {
+    grid-template-columns: repeat(6, 1fr);
+  }
+}
+
+/* ============================================================================
+ * MODERN KPI CARDS
+ * ============================================================================ */
+
+/* KPI Cards Container */
+.kpi-grid {
+  display: grid;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+/* Mobile: Single Column */
+.kpi-grid {
+  grid-template-columns: 1fr;
+}
+
+/* Tablet: 2x2 Grid */
+@media (min-width: 768px) {
+  .kpi-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Desktop: 4 in One Row */
+@media (min-width: 1024px) {
+  .kpi-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+/* Modern KPI Card */
+.kpi-card-modern {
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.75rem;
+  padding: 1.25rem;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.kpi-card-modern::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.kpi-card-modern:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  border-color: #d1d5db;
+}
+
+.kpi-card-modern:hover::before {
+  opacity: 1;
+}
+
+/* KPI Card Content */
+.kpi-card-content {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.kpi-card-icon {
+  width: 3rem;
+  height: 3rem;
+  border-radius: 0.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  background: linear-gradient(135deg, #f3f4f6, #e5e7eb);
+  color: #6b7280;
+  transition: all 0.3s ease;
+}
+
+.kpi-card-modern:hover .kpi-card-icon {
+  transform: scale(1.05);
+}
+
+/* KPI Card Icon Variants */
+.kpi-card-icon.primary {
+  background: linear-gradient(135deg, #dbeafe, #bfdbfe);
+  color: #1d4ed8;
+}
+
+.kpi-card-icon.success {
+  background: linear-gradient(135deg, #dcfce7, #bbf7d0);
+  color: #059669;
+}
+
+.kpi-card-icon.warning {
+  background: linear-gradient(135deg, #fef3c7, #fde68a);
+  color: #d97706;
+}
+
+.kpi-card-icon.purple {
+  background: linear-gradient(135deg, #ede9fe, #ddd6fe);
+  color: #7c3aed;
+}
+
+/* KPI Card Text */
+.kpi-card-text {
+  flex: 1;
+  min-width: 0;
+}
+
+.kpi-card-label {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #6b7280;
+  margin-bottom: 0.25rem;
+  line-height: 1.2;
+}
+
+.kpi-card-value {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #111827;
+  line-height: 1.2;
+  margin-bottom: 0.125rem;
+}
+
+.kpi-card-subtitle {
+  font-size: 0.75rem;
+  color: #9ca3af;
+  font-weight: 500;
+}
+
+/* ============================================================================
+ * RESPONSIVE CHARTS
+ * ============================================================================ */
+
+/* Charts Container */
+.charts-grid {
+  display: grid;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+/* Mobile: Single Column */
+.charts-grid {
+  grid-template-columns: 1fr;
+}
+
+/* Desktop: 2 Columns */
+@media (min-width: 1024px) {
+  .charts-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Modern Chart Card */
+.chart-card-modern {
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.75rem;
+  overflow: hidden;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.chart-card-modern:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  border-color: #d1d5db;
+}
+
+/* Chart Header */
+.chart-header {
+  padding: 1.25rem 1.5rem 1rem;
+  border-bottom: 1px solid #f3f4f6;
+}
+
+.chart-title {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #111827;
+  margin-bottom: 0.25rem;
+  line-height: 1.3;
+}
+
+.chart-subtitle {
+  font-size: 0.875rem;
+  color: #6b7280;
+  line-height: 1.4;
+}
+
+/* Chart Body */
+.chart-body {
+  padding: 1rem 1.5rem 1.5rem;
+  position: relative;
+}
+
+/* Chart Container */
+.chart-container {
+  position: relative;
+  width: 100%;
+  height: 0;
+  padding-bottom: 60%; /* 16:10 aspect ratio */
+  overflow: hidden;
+}
+
+.chart-container canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100% !important;
+  height: 100% !important;
+}
+
+/* Mobile Chart Toggle */
+.chart-toggle {
+  display: none;
+  width: 100%;
+  padding: 0.75rem 1rem;
+  background: #f9fafb;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #374151;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-bottom: 1rem;
+}
+
+.chart-toggle:hover {
+  background: #f3f4f6;
+  color: #1f2937;
+}
+
+.chart-toggle svg {
+  width: 1rem;
+  height: 1rem;
+  margin-left: 0.5rem;
+  transition: transform 0.2s ease;
+}
+
+.chart-toggle.active svg {
+  transform: rotate(180deg);
+}
+
+/* Show toggle on small mobile screens */
+@media (max-width: 480px) {
+  .chart-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  
+  .chart-container {
+    display: none;
+  }
+  
+  .chart-container.expanded {
+    display: block;
+  }
+}
+
+/* ============================================================================
+ * DASHBOARD LAYOUT
+ * ============================================================================ */
+
+/* Dashboard Container */
+.dashboard-container {
+  padding: 1.5rem 0;
+}
+
+@media (min-width: 768px) {
+  .dashboard-container {
+    padding: 2rem 0;
+  }
+}
+
+@media (min-width: 1024px) {
+  .dashboard-container {
+    padding: 2.5rem 0;
+  }
+}
+
+/* Page Header */
+.page-header {
+  margin-bottom: 2rem;
+}
+
+.page-header-content {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+@media (min-width: 768px) {
+  .page-header-content {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+}
+
+.page-title {
+  font-size: 1.875rem;
+  font-weight: 700;
+  color: #111827;
+  line-height: 1.2;
+  margin-bottom: 0.5rem;
+}
+
+@media (min-width: 1024px) {
+  .page-title {
+    font-size: 2.25rem;
+  }
+}
+
+.page-subtitle {
+  font-size: 1.125rem;
+  color: #6b7280;
+  line-height: 1.4;
+}
+
+.page-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+/* Status Indicators */
+.status-indicator {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.status-indicator.offline {
+  background: #fef3c7;
+  color: #d97706;
+}
+
+.status-indicator.online {
+  background: #dcfce7;
+  color: #059669;
+}
+
+/* Last Updated */
+.last-updated {
+  font-size: 0.875rem;
+  color: #9ca3af;
+  margin-top: 0.5rem;
+}
+
+/* ============================================================================
+ * RESPONSIVE UTILITIES
+ * ============================================================================ */
+
+/* Hide/Show utilities */
+.hide-mobile {
+  display: none;
+}
+
+@media (min-width: 768px) {
+  .hide-mobile {
+    display: block;
+  }
+  
+  .show-mobile {
+    display: none;
+  }
+}
+
+/* Spacing utilities */
+.section-spacing {
+  margin-bottom: 2rem;
+}
+
+@media (min-width: 768px) {
+  .section-spacing {
+    margin-bottom: 2.5rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .section-spacing {
+    margin-bottom: 3rem;
+  }
+}
+
+/* ============================================================================
+ * ANIMATIONS & TRANSITIONS
+ * ============================================================================ */
+
+/* Smooth transitions for all interactive elements */
+.kpi-card-modern,
+.chart-card-modern,
+.chart-toggle {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Chart expand/collapse animation */
+.chart-container {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Loading states */
+.loading-skeleton {
+  background: linear-gradient(90deg, #f3f4f6 25%, #e5e7eb 50%, #f3f4f6 75%);
+  background-size: 200% 100%;
+  animation: loading 1.5s infinite;
+}
+
+@keyframes loading {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+/* ============================================================================
+ * DARK MODE SUPPORT
+ * ============================================================================ */
+
+@media (prefers-color-scheme: dark) {
+  .main-container {
+    background: #111827;
+  }
+  
+  .kpi-card-modern {
+    background: #1f2937;
+    border-color: #374151;
+  }
+  
+  .kpi-card-modern:hover {
+    border-color: #4b5563;
+  }
+  
+  .kpi-card-label {
+    color: #9ca3af;
+  }
+  
+  .kpi-card-value {
+    color: #f9fafb;
+  }
+  
+  .kpi-card-subtitle {
+    color: #6b7280;
+  }
+  
+  .chart-card-modern {
+    background: #1f2937;
+    border-color: #374151;
+  }
+  
+  .chart-header {
+    border-bottom-color: #374151;
+  }
+  
+  .chart-title {
+    color: #f9fafb;
+  }
+  
+  .chart-subtitle {
+    color: #9ca3af;
+  }
+  
+  .chart-toggle {
+    background: #374151;
+    border-color: #4b5563;
+    color: #d1d5db;
+  }
+  
+  .chart-toggle:hover {
+    background: #4b5563;
+    color: #f9fafb;
+  }
+  
+  .page-title {
+    color: #f9fafb;
+  }
+  
+  .page-subtitle {
+    color: #9ca3af;
+  }
+  
+  .last-updated {
+    color: #6b7280;
+  }
+}
+

@@ -3,12 +3,12 @@
 // ============================================================================
 
 // Initialize dashboard charts
-function initDashboardCharts() {
+async function initDashboardCharts() {
   try {
     // Check if Chart.js is available
     if (typeof Chart === 'undefined') {
-      console.warn('Chart.js not loaded yet, retrying in 500ms...');
-      setTimeout(initDashboardCharts, 500);
+      console.warn('Chart.js not loaded yet');
+      showChartFallback();
       return;
     }
 
@@ -17,17 +17,19 @@ function initDashboardCharts() {
     const downtimeCtx = document.getElementById('downtimeTrendChart');
     
     if (!preparednessCtx || !downtimeCtx) {
-      console.warn('Chart canvas elements not found, retrying in 500ms...');
-      setTimeout(initDashboardCharts, 500);
+      console.warn('Chart canvas elements not found');
       return;
     }
 
-    // Show fallback while charts are loading
-    showChartFallback();
-
+    // Remove any existing loading indicators
+    document.querySelectorAll('.chart-loading').forEach(el => el.remove());
+    
+    // Load data from service
+    const currentData = DataService.getCurrentData();
+    
     // Prepare data for charts
-    const preparedCount = dashboardData.departments.filter(dept => dept.prepared).length;
-    const unpreparedCount = dashboardData.departments.filter(dept => !dept.prepared).length;
+    const preparedCount = currentData.departments.filter(dept => dept.prepared).length;
+    const unpreparedCount = currentData.departments.filter(dept => !dept.prepared).length;
 
     // Pie Chart - Department Preparedness
     if (preparednessCtx) {
@@ -70,8 +72,10 @@ function initDashboardCharts() {
         window.downtimeTrendChart.destroy();
       }
 
-      const months = ['Sep', 'Oct', 'Nov', 'Dec', 'Jan', 'Feb'];
-      const eventCounts = [0, 0, 0, 0, 1, 1]; // Demo data for past 6 months
+      // Load trend data from service
+      const trendData = await DataService.loadDowntimeTrend(6);
+      const months = trendData.map(item => item.month);
+      const eventCounts = trendData.map(item => item.count);
 
       window.downtimeTrendChart = new Chart(downtimeCtx, {
         type: 'line',
@@ -117,36 +121,96 @@ function initDashboardCharts() {
   }
 }
 
-// Update KPI cards with demo data
-function updateKPICards() {
+// Update KPI cards with data from service
+async function updateKPICards() {
   try {
+    const currentData = DataService.getCurrentData();
+    
     // Total Forms & Labels
     const totalFormsLabels = document.getElementById('totalFormsLabels');
     if (totalFormsLabels) {
-      totalFormsLabels.textContent = dashboardData.formsAndLabels.length;
+      totalFormsLabels.textContent = currentData.formsAndLabels.length;
     }
 
     // Prepared Departments Percentage
     const preparedDepartments = document.getElementById('preparedDepartments');
     if (preparedDepartments) {
-      const preparedCount = dashboardData.departments.filter(dept => dept.prepared).length;
-      const percentage = Math.round((preparedCount / dashboardData.departments.length) * 100);
+      const preparedCount = currentData.departments.filter(dept => dept.prepared).length;
+      const percentage = Math.round((preparedCount / currentData.departments.length) * 100);
       preparedDepartments.textContent = `${percentage}%`;
     }
 
     // Downtime Events
     const downtimeEvents = document.getElementById('downtimeEvents');
     if (downtimeEvents) {
-      downtimeEvents.textContent = dashboardData.downtimeEvents.length;
+      downtimeEvents.textContent = currentData.downtimeEvents.length;
     }
 
     // Compliance Score
     const complianceScore = document.getElementById('complianceScore');
     if (complianceScore) {
-      complianceScore.textContent = `${dashboardData.compliance.score}/${dashboardData.compliance.maxScore}`;
+      complianceScore.textContent = `${currentData.compliance.score}/${currentData.compliance.maxScore}`;
+    }
+
+    // Update last updated timestamp if available
+    const lastUpdatedElement = document.getElementById('lastUpdated');
+    if (lastUpdatedElement && currentData.lastUpdated) {
+      const lastUpdated = new Date(currentData.lastUpdated);
+      lastUpdatedElement.textContent = `Last updated: ${lastUpdated.toLocaleString()}`;
+    }
+
+    // Show offline indicator if in offline mode
+    const offlineIndicator = document.getElementById('offlineIndicator');
+    if (offlineIndicator) {
+      if (currentData.isOffline) {
+        offlineIndicator.style.display = 'block';
+        offlineIndicator.textContent = 'Offline Mode - Demo Data';
+      } else {
+        offlineIndicator.style.display = 'none';
+      }
     }
   } catch (error) {
     ErrorHandler.handleError(error, 'updateKPICards');
+  }
+}
+
+// Load and refresh dashboard data
+async function loadDashboardData() {
+  try {
+    UI.showLoadingOverlay();
+    
+    await DataService.loadDashboardData();
+    
+    // Update UI with fresh data
+    await updateKPICards();
+    await initDashboardCharts();
+    
+    UI.hideLoadingOverlay();
+    
+    // Show success notification
+    if (!DataService.getCurrentData().isOffline) {
+      UI.showNotification('Dashboard data loaded successfully', 'success');
+    }
+    
+  } catch (error) {
+    UI.hideLoadingOverlay();
+    ErrorHandler.handleError(error, 'loadDashboardData');
+  }
+}
+
+// Refresh dashboard data
+async function refreshDashboardData() {
+  try {
+    UI.showLoadingOverlay();
+    
+    await DataService.refreshData();
+    
+    UI.hideLoadingOverlay();
+    UI.showNotification('Dashboard refreshed successfully', 'success');
+    
+  } catch (error) {
+    UI.hideLoadingOverlay();
+    ErrorHandler.handleError(error, 'refreshDashboardData');
   }
 }
 
@@ -191,44 +255,59 @@ function closeComingSoon() {
   }
 }
 
-// Initialize ICT Dashboard
-function initICTDashboard() {
+// Initialize ICT Dashboard with data loading
+async function initICTDashboard() {
   try {
-    updateKPICards();
+    // Load dashboard data (this already calls updateKPICards and initDashboardCharts)
+    await loadDashboardData();
     
-    // Initialize charts with a small delay to ensure Chart.js is loaded
-    setTimeout(() => {
-      initDashboardCharts();
-    }, 100);
   } catch (error) {
     console.error('Error initializing ICT dashboard:', error);
-    // Don't show error notification for dashboard initialization issues
-    // Just log the error to console
+    // Fallback - try to initialize with existing data
+    try {
+      await updateKPICards();
+      await initDashboardCharts();
+    } catch (fallbackError) {
+      console.error('Fallback initialization also failed:', fallbackError);
+    }
   }
 }
 
 // Fallback function if Chart.js fails to load
 function showChartFallback() {
   try {
-    const preparednessCtx = document.getElementById('preparednessChart');
-    const downtimeCtx = document.getElementById('downtimeTrendChart');
+    const preparednessContainer = document.getElementById('preparednessChart')?.parentElement;
+    const downtimeContainer = document.getElementById('downtimeTrendChart')?.parentElement;
     
-    if (preparednessCtx) {
-      preparednessCtx.innerHTML = '<div class="flex items-center justify-center h-full text-gray-500">Chart loading...</div>';
+    if (preparednessContainer && !preparednessContainer.querySelector('.chart-loading')) {
+      const loadingDiv = document.createElement('div');
+      loadingDiv.className = 'chart-loading flex items-center justify-center h-full text-gray-500 absolute inset-0 bg-white bg-opacity-90';
+      loadingDiv.textContent = 'Chart loading...';
+      preparednessContainer.style.position = 'relative';
+      preparednessContainer.appendChild(loadingDiv);
     }
     
-    if (downtimeCtx) {
-      downtimeCtx.innerHTML = '<div class="flex items-center justify-center h-full text-gray-500">Chart loading...</div>';
+    if (downtimeContainer && !downtimeContainer.querySelector('.chart-loading')) {
+      const loadingDiv = document.createElement('div');
+      loadingDiv.className = 'chart-loading flex items-center justify-center h-full text-gray-500 absolute inset-0 bg-white bg-opacity-90';
+      loadingDiv.textContent = 'Chart loading...';
+      downtimeContainer.style.position = 'relative';
+      downtimeContainer.appendChild(loadingDiv);
     }
   } catch (error) {
     console.error('Error showing chart fallback:', error);
   }
 }
 
+
+
 // Export for use in other modules
 window.initDashboardCharts = initDashboardCharts;
 window.updateKPICards = updateKPICards;
+window.loadDashboardData = loadDashboardData;
+window.refreshDashboardData = refreshDashboardData;
 window.showComingSoon = showComingSoon;
 window.closeComingSoon = closeComingSoon;
 window.initICTDashboard = initICTDashboard;
 window.showChartFallback = showChartFallback;
+

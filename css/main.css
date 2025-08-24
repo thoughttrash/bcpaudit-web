@@ -48,6 +48,16 @@
 
 /* 15. Components - Tables, Forms & Special Components */
 @import url('./15-components.css');
+@import url('./18-dark-mode.css');
+
+/* 19. Audit Interface Layout - Digital Audit Tool Positioning */
+@import url('./19-audit-interface-layout.css');
+
+/* 16. Header - Modern Sticky Navigation & Dropdown Menus */
+@import url('./16-header.css');
+
+/* 17. Responsive Layout - Mobile-First Grid System & Card Layouts */
+@import url('./17-responsive-layout.css');
 
 /* ============================================================================
  * CSS MODULARIZATION COMPLETE
@@ -77,5 +87,7 @@
  * │   ├── 13-responsive.css         (Responsive design)
  * │   ├── 14-accessibility.css      (Accessibility features)
  * │   ├── 15-components.css         (Special components)
+ * │   ├── 16-header.css             (Modern sticky navigation)
+ * │   ├── 17-responsive-layout.css  (Mobile-first grid system)
  * │   └── main.css                  (This file - imports all modules)
  * ============================================================================ */

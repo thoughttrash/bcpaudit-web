@@ -75,3 +75,4 @@ const RoleManager = {
 
 // Export for use in other modules
 window.RoleManager = RoleManager;
+

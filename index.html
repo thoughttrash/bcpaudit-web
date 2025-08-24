@@ -118,212 +118,537 @@
   </div>
 
   <!-- Main Application (Hidden initially) -->
-  <div id="mainApp" class="w-full space-y-6" style="display: none;" role="main" id="mainContent">
-    <!-- Sticky Header -->
-    <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-sm border-b border-gray-200 shadow-sm header-enter">
-      <div class="w-full px-4 sm:px-6 lg:px-8">
-        <div class="flex items-center justify-between py-4">
-          <!-- Left Section: Logo, Title, and Breadcrumbs -->
-          <div class="flex items-center space-x-4">
-            <!-- Logo/Icon -->
-            <div class="flex-shrink-0">
-              <div class="w-10 h-10 bg-gradient-to-br from-blue-500 to-blue-600 rounded-lg flex items-center justify-center shadow-sm">
-                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
-                </svg>
-              </div>
-            </div>
-            
-            <!-- Title and Subtitle -->
-            <div class="flex-1 min-w-0">
-              <h1 class="text-xl sm:text-2xl font-bold text-gray-900 truncate">Data of BCP Documents & Forms – Demo</h1>
-              <p class="text-sm text-gray-600 truncate">HIS Business Continuity Plan – Audit of Manual Forms & Downtime Labels</p>
-            </div>
+  <div id="mainApp" class="main-content" style="display: none;" role="main" id="mainContent">
+    <!-- Modern Header -->
+    <header class="header" id="mainHeader">
+      <div class="header-content">
+        <!-- Logo Section -->
+        <div class="logo-section">
+          <div class="logo-icon">
+            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
+            </svg>
           </div>
-
-          <!-- Right Section: Role Badge and Actions -->
-          <div class="flex items-center space-x-4">
-            <!-- Role Badge -->
-            <div class="hidden sm:block">
-              <span id="currentRole" class="inline-flex items-center px-3 py-1.5 rounded-full text-sm font-medium bg-gradient-to-r from-blue-50 to-blue-100 text-blue-800 border border-blue-200 shadow-sm" role="status" aria-label="Current user role"></span>
-            </div>
-            
-            <!-- Logout Button -->
-            <button id="btnLogout" class="btn btn-primary" aria-label="Logout and return to role selection">
-              <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
-              </svg>
-              Logout
-            </button>
+          <div class="logo-text">
+            <h1 class="logo-title">BCP Audit</h1>
+            <p class="logo-subtitle">Business Continuity Plan</p>
           </div>
         </div>
-        
-        <!-- Breadcrumbs -->
-        <div class="flex items-center space-x-2 py-2 border-t border-gray-100">
-          <nav class="flex items-center space-x-2 text-sm text-gray-600" aria-label="Breadcrumb navigation">
-            <span class="flex items-center">
-              <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2H5a2 2 0 00-2-2z"></path>
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5a2 2 0 012-2h4a2 2 0 012 2v2H8V5z"></path>
-              </svg>
-              Dashboard
-            </span>
-            <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+
+        <!-- Navigation Section -->
+        <nav class="nav-section">
+          <button onclick="showDashboard()" class="nav-item active">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
             </svg>
-            <span id="breadcrumbCurrent" class="text-blue-600 font-medium" aria-current="page">Main</span>
-          </nav>
+            Dashboard
+          </button>
+          
+          <button onclick="showDigitalAuditSystem()" class="nav-item">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path>
+            </svg>
+            Digital Audit Tool
+          </button>
+          
+
+        </nav>
+
+        <!-- Header Actions -->
+        <div class="header-actions">
+          <button onclick="showDashboard()" class="header-btn" title="Dashboard">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+            </svg>
+          </button>
+
+          <button onclick="handleLogout()" class="header-btn" title="Logout">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
+            </svg>
+          </button>
+
+          <button onclick="toggleMobileMenu()" class="mobile-menu-btn" title="Menu">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Mobile Menu -->
+      <div class="mobile-menu" id="mobileMenu">
+        <div class="mobile-menu-content">
+          <div class="mobile-menu-section">
+            <div class="mobile-menu-title">Main Navigation</div>
+            <button onclick="showDashboard(); closeMobileMenu()" class="mobile-menu-item active">
+              <div class="mobile-menu-item-icon">📊</div>
+              Dashboard Overview
+            </button>
+          </div>
+          
+          <div class="mobile-menu-section">
+            <div class="mobile-menu-title">Audit Tools</div>
+            <button onclick="showDigitalAuditSystem(); closeMobileMenu()" class="mobile-menu-item">
+              <div class="mobile-menu-item-icon">📱</div>
+              Digital Audit Tool
+            </button>
+          </div>
+          
+
         </div>
       </div>
     </header>
 
-    <!-- Main Content Area -->
-    <div class="px-4 sm:px-6 lg:px-8 pb-8">
+    <!-- Main Content Container -->
+    <div class="main-container">
 
-
-
-    <!-- Role-specific Content Sections -->
-    
-    <!-- ICT Admin Content -->
-    <div id="ict-content" style="display: none;">
-      <div class="flex">
-        <!-- Sidebar Navigation -->
-        <div class="sidebar-container bg-white border-r border-gray-200 min-h-screen transition-all duration-300">
-          <div class="p-4 lg:p-6">
-            <div class="mb-6">
-              <h3 class="text-lg font-semibold text-gray-900 mb-4 sidebar-title">Navigation</h3>
+      <!-- Role-specific Content Sections -->
+      
+      <!-- ICT Admin Content -->
+      <div id="ict-content" style="display: none;">
+        <!-- Dashboard Overview -->
+        <div id="dashboard-overview">
+          <!-- Page Header -->
+          <div class="page-header">
+            <div class="page-header-content">
+              <div>
+                <h1 class="page-title">Dashboard Overview</h1>
+                <p class="page-subtitle">BCP Compliance Status & Key Performance Indicators</p>
+              </div>
+              <div class="page-actions">
+                <!-- Offline Indicator -->
+                <div id="offlineIndicator" class="status-indicator offline">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z"></path>
+                  </svg>
+                  Offline Mode - Demo Data
+                </div>
+                <!-- Refresh Button -->
+                <button onclick="refreshDashboardData()" class="btn btn-secondary">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+                  </svg>
+                  Refresh
+                </button>
+              </div>
             </div>
-            
-            <nav class="space-y-2">
-              <button onclick="showComingSoon('Dashboard Overview')" class="sidebar-nav-item w-full flex items-center px-3 py-3 text-sm font-medium text-gray-700 rounded-lg hover:bg-gray-50 hover:text-gray-900 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2" data-tooltip="Summary of BCP status, KPIs, and recent activity" tabindex="0">
-                <span class="text-lg mr-3 flex-shrink-0">📊</span>
-                <span class="sidebar-label">Dashboard Overview</span>
-              </button>
-              <button onclick="showComingSoon('Form & Label Repository')" class="sidebar-nav-item w-full flex items-center px-3 py-3 text-sm font-medium text-gray-700 rounded-lg hover:bg-gray-50 hover:text-gray-900 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2" data-tooltip="Manage all manual forms and downtime labels by department" tabindex="0">
-                <span class="text-lg mr-3 flex-shrink-0">📂</span>
-                <span class="sidebar-label">Form & Label Repository</span>
-              </button>
-              <button onclick="showComingSoon('Preparedness Tracker')" class="sidebar-nav-item w-full flex items-center px-3 py-3 text-sm font-medium text-gray-700 rounded-lg hover:bg-gray-50 hover:text-gray-900 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2" data-tooltip="Track department readiness and form availability" tabindex="0">
-                <span class="text-lg mr-3 flex-shrink-0">✅</span>
-                <span class="sidebar-label">Preparedness Tracker</span>
-              </button>
-              <button onclick="showComingSoon('Downtime Event Log')" class="sidebar-nav-item w-full flex items-center px-3 py-3 text-sm font-medium text-gray-700 rounded-lg hover:bg-gray-50 hover:text-gray-900 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2" data-tooltip="Log planned and unplanned HIS downtime events" tabindex="0">
-                <span class="text-lg mr-3 flex-shrink-0">⚡</span>
-                <span class="sidebar-label">Downtime Event Log</span>
-              </button>
-              <button onclick="showComingSoon('Digital Audit Checklist')" class="sidebar-nav-item w-full flex items-center px-3 py-3 text-sm font-medium text-gray-700 rounded-lg hover:bg-gray-50 hover:text-gray-900 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2" data-tooltip="Conduct and store digital audit assessments" tabindex="0">
-                <span class="text-lg mr-3 flex-shrink-0">📝</span>
-                <span class="sidebar-label">Digital Audit Checklist</span>
-              </button>
-              <button onclick="showComingSoon('Compliance Analytics')" class="sidebar-nav-item w-full flex items-center px-3 py-3 text-sm font-medium text-gray-700 rounded-lg hover:bg-gray-50 hover:text-gray-900 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2" data-tooltip="View compliance scores, trends, and performance insights" tabindex="0">
-                <span class="text-lg mr-3 flex-shrink-0">📈</span>
-                <span class="sidebar-label">Compliance Analytics</span>
-              </button>
-              <button onclick="showComingSoon('Recognition & Awards')" class="sidebar-nav-item w-full flex items-center px-3 py-3 text-sm font-medium text-gray-700 rounded-lg hover:bg-gray-50 hover:text-gray-900 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2" data-tooltip="Track and showcase top-performing departments" tabindex="0">
-                <span class="text-lg mr-3 flex-shrink-0">🏅</span>
-                <span class="sidebar-label">Recognition & Awards</span>
-              </button>
-            </nav>
+            <!-- Last Updated -->
+            <div id="lastUpdated" class="last-updated"></div>
           </div>
-        </div>
 
-        <!-- Main Dashboard Content -->
-        <div class="flex-1 p-4 lg:p-8">
-          <!-- Dashboard Overview -->
-          <div id="dashboard-overview">
-            <!-- Page Header -->
-            <div class="mb-8">
-              <h1 class="text-3xl lg:text-4xl font-bold text-gray-900 mb-2">Dashboard Overview</h1>
-              <p class="text-lg text-gray-600">BCP Compliance Status & Key Performance Indicators</p>
-            </div>
-
-            <!-- KPI Cards -->
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6 mb-8">
-              <!-- Total Forms & Labels -->
-              <div class="kpi-card bg-white rounded-xl shadow-sm border border-gray-200 p-6 hover:shadow-lg transition-all duration-300">
-                <div class="flex items-center">
-                  <div class="flex-shrink-0">
-                    <div class="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center">
-                      <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
-                      </svg>
-                    </div>
-                  </div>
-                  <div class="ml-4">
-                    <p class="text-sm font-medium text-gray-600 mb-1">Total Forms & Labels</p>
-                    <p class="text-2xl lg:text-3xl font-bold text-gray-900" id="totalFormsLabels">31</p>
-                  </div>
+          <!-- Modern KPI Cards -->
+          <div class="kpi-grid">
+            <!-- Total Forms & Labels -->
+            <div class="kpi-card-modern">
+              <div class="kpi-card-content">
+                <div class="kpi-card-icon primary">
+                  <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                  </svg>
                 </div>
-              </div>
-
-              <!-- Prepared Departments -->
-              <div class="kpi-card bg-white rounded-xl shadow-sm border border-gray-200 p-6 hover:shadow-lg transition-all duration-300">
-                <div class="flex items-center">
-                  <div class="flex-shrink-0">
-                    <div class="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center">
-                      <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                      </svg>
-                    </div>
-                  </div>
-                  <div class="ml-4">
-                    <p class="text-sm font-medium text-gray-600 mb-1">Prepared Departments</p>
-                    <p class="text-2xl lg:text-3xl font-bold text-gray-900" id="preparedDepartments">85%</p>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Recent Downtime Events -->
-              <div class="kpi-card bg-white rounded-xl shadow-sm border border-gray-200 p-6 hover:shadow-lg transition-all duration-300">
-                <div class="flex items-center">
-                  <div class="flex-shrink-0">
-                    <div class="w-12 h-12 bg-orange-100 rounded-xl flex items-center justify-center">
-                      <svg class="w-6 h-6 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z"></path>
-                      </svg>
-                    </div>
-                  </div>
-                  <div class="ml-4">
-                    <p class="text-sm font-medium text-gray-600 mb-1">Downtime Events</p>
-                    <p class="text-2xl lg:text-3xl font-bold text-gray-900" id="downtimeEvents">2</p>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Compliance Score -->
-              <div class="kpi-card bg-white rounded-xl shadow-sm border border-gray-200 p-6 hover:shadow-lg transition-all duration-300">
-                <div class="flex items-center">
-                  <div class="flex-shrink-0">
-                    <div class="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center">
-                      <svg class="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
-                      </svg>
-                    </div>
-                  </div>
-                  <div class="ml-4">
-                    <p class="text-sm font-medium text-gray-600 mb-1">Compliance Score</p>
-                    <p class="text-2xl lg:text-3xl font-bold text-gray-900" id="complianceScore">32/40</p>
-                    <p class="text-sm text-green-600 font-semibold">Good</p>
-                  </div>
+                <div class="kpi-card-text">
+                  <div class="kpi-card-label">Total Forms & Labels</div>
+                  <div class="kpi-card-value" id="totalFormsLabels">31</div>
                 </div>
               </div>
             </div>
 
-            <!-- Charts Section -->
-            <div class="grid grid-cols-1 xl:grid-cols-2 gap-6 lg:gap-8">
-              <!-- Prepared vs Unprepared Departments Pie Chart -->
-              <div class="chart-card bg-white rounded-xl shadow-sm border border-gray-200 p-6 lg:p-8">
-                <h3 class="text-xl font-semibold text-gray-900 mb-6">Department Preparedness</h3>
-                <div class="h-64 lg:h-80">
+            <!-- Prepared Departments -->
+            <div class="kpi-card-modern">
+              <div class="kpi-card-content">
+                <div class="kpi-card-icon success">
+                  <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                  </svg>
+                </div>
+                <div class="kpi-card-text">
+                  <div class="kpi-card-label">Prepared Departments</div>
+                  <div class="kpi-card-value" id="preparedDepartments">85%</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Recent Downtime Events -->
+            <div class="kpi-card-modern">
+              <div class="kpi-card-content">
+                <div class="kpi-card-icon warning">
+                  <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z"></path>
+                  </svg>
+                </div>
+                <div class="kpi-card-text">
+                  <div class="kpi-card-label">Downtime Events</div>
+                  <div class="kpi-card-value" id="downtimeEvents">2</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Compliance Score -->
+            <div class="kpi-card-modern">
+              <div class="kpi-card-content">
+                <div class="kpi-card-icon purple">
+                  <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                  </svg>
+                </div>
+                <div class="kpi-card-text">
+                  <div class="kpi-card-label">Compliance Score</div>
+                  <div class="kpi-card-value" id="complianceScore">32/40</div>
+                  <div class="kpi-card-subtitle">Good</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Responsive Charts Section -->
+          <div class="charts-grid">
+            <!-- Prepared vs Unprepared Departments Pie Chart -->
+            <div class="chart-card-modern">
+              <div class="chart-header">
+                <h3 class="chart-title">Department Preparedness</h3>
+                <p class="chart-subtitle">Current status of department BCP preparation</p>
+              </div>
+              <div class="chart-body">
+                <!-- Mobile Chart Toggle -->
+                <button class="chart-toggle" onclick="toggleChart('preparednessChart')">
+                  <span>View Department Preparedness Chart</span>
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                  </svg>
+                </button>
+                <!-- Chart Container -->
+                <div class="chart-container" id="preparednessChartContainer">
                   <canvas id="preparednessChart"></canvas>
                 </div>
               </div>
+            </div>
 
-              <!-- Downtime Events Trend Line Chart -->
-              <div class="chart-card bg-white rounded-xl shadow-sm border border-gray-200 p-6 lg:p-8">
-                <h3 class="text-xl font-semibold text-gray-900 mb-6">Downtime Events Trend</h3>
-                <div class="h-64 lg:h-80">
+            <!-- Downtime Events Trend Line Chart -->
+            <div class="chart-card-modern">
+              <div class="chart-header">
+                <h3 class="chart-title">Downtime Events Trend</h3>
+                <p class="chart-subtitle">Historical downtime events over time</p>
+              </div>
+              <div class="chart-body">
+                <!-- Mobile Chart Toggle -->
+                <button class="chart-toggle" onclick="toggleChart('downtimeTrendChart')">
+                  <span>View Downtime Events Trend</span>
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                  </svg>
+                </button>
+                <!-- Chart Container -->
+                <div class="chart-container" id="downtimeTrendChartContainer">
                   <canvas id="downtimeTrendChart"></canvas>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Digital Audit System -->
+        <div id="digital-audit-system" style="display: none;">
+          <!-- Page Header -->
+          <div class="page-header">
+            <div class="page-header-content">
+              <div>
+                <h1 class="page-title">Digital Audit System</h1>
+                <p class="page-subtitle">Conduct BCP audits using mobile devices and manage audit sessions</p>
+              </div>
+              <div class="page-actions">
+                <button onclick="showDashboardOverview()" class="btn btn-secondary">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                  </svg>
+                  Back to Dashboard
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Start Auditing Section -->
+          <div class="chart-card-modern section-spacing">
+            <div class="chart-body">
+              <div class="text-center">
+                <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <svg class="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+                  </svg>
+                </div>
+                <h2 class="text-2xl font-bold text-gray-900 mb-4">Start New Audit Session</h2>
+                <p class="text-gray-600 mb-6">Begin a new BCP audit for a department. Select the department and audit date to get started.</p>
+                
+                <button onclick="showAuditSessionModal()" class="btn btn-primary text-lg px-8 py-3">
+                  <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                  </svg>
+                  Start Auditing
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Active Sessions Section -->
+          <div class="chart-card-modern section-spacing">
+            <div class="chart-header">
+              <h3 class="chart-title">Active Audit Sessions</h3>
+            </div>
+            <div class="chart-body">
+              <div id="active-sessions-list" class="space-y-4">
+                <!-- Sessions will be loaded here -->
+                <div class="text-center text-gray-500 py-8">
+                  <svg class="w-12 h-12 mx-auto mb-4 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                  </svg>
+                  <p>No active audit sessions</p>
+                  <p class="text-sm">Click "Start Auditing" to begin a new session</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Recent Sessions Section -->
+          <div class="chart-card-modern">
+            <div class="chart-header">
+              <h3 class="chart-title">Recent Audit Sessions</h3>
+            </div>
+            <div class="chart-body">
+              <div id="recent-sessions-list" class="space-y-4">
+                <!-- Recent sessions will be loaded here -->
+                <div class="text-center text-gray-500 py-8">
+                  <svg class="w-12 h-12 mx-auto mb-4 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                  </svg>
+                  <p>No recent audit sessions</p>
+                  <p class="text-sm">Completed audits will appear here</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+
+          <!-- Digital Audit System Content -->
+          <div id="digital-audit-content">
+            <!-- Digital Audit System Interface -->
+            <div id="digital-audit-system" style="display: none;">
+              <!-- Page Header -->
+              <div class="mb-8">
+                <div class="flex items-center justify-between mb-4">
+                  <div>
+                    <h1 class="text-3xl lg:text-4xl font-bold text-gray-900 mb-2">Digital Audit System</h1>
+                    <p class="text-lg text-gray-600">Conduct BCP audits using mobile devices and manage audit sessions</p>
+                  </div>
+                  <div class="flex items-center space-x-3">
+                    <button onclick="showDashboardOverview()" class="btn btn-secondary flex items-center space-x-2">
+                      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                      </svg>
+                      <span>Back to Dashboard</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Start Auditing Section -->
+              <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 lg:p-8 mb-8">
+                <div class="text-center">
+                  <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <svg class="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+                    </svg>
+                  </div>
+                  <h2 class="text-2xl font-bold text-gray-900 mb-4">Start New Audit Session</h2>
+                  <p class="text-gray-600 mb-6">Begin a new BCP audit for a department. Select the department and audit date to get started.</p>
+                  
+                  <button onclick="showAuditSessionModal()" class="btn btn-primary text-lg px-8 py-3">
+                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                    Start Auditing
+                  </button>
+                </div>
+              </div>
+
+              <!-- Active Sessions Section -->
+              <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 lg:p-8 mb-8">
+                <h3 class="text-xl font-semibold text-gray-900 mb-6">Active Audit Sessions</h3>
+                <div id="active-sessions-list" class="space-y-4">
+                  <!-- Sessions will be loaded here -->
+                  <div class="text-center text-gray-500 py-8">
+                    <svg class="w-12 h-12 mx-auto mb-4 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                    </svg>
+                    <p>No active audit sessions</p>
+                    <p class="text-sm">Click "Start Auditing" to begin a new session</p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Recent Sessions Section -->
+              <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 lg:p-8">
+                <h3 class="text-xl font-semibold text-gray-900 mb-6">Recent Audit Sessions</h3>
+                <div id="recent-sessions-list" class="space-y-4">
+                  <!-- Recent sessions will be loaded here -->
+                  <div class="text-center text-gray-500 py-8">
+                    <svg class="w-12 h-12 mx-auto mb-4 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                    <p>No recent audit sessions</p>
+                    <p class="text-sm">Completed audits will appear here</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Audit Session Modal -->
+            <div id="audit-session-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50" style="display: none;">
+              <div class="bg-white rounded-xl p-6 max-w-md w-full mx-4">
+                <div class="flex items-center justify-between mb-6">
+                  <h3 class="text-xl font-bold text-gray-900">Create New Audit Session</h3>
+                  <button onclick="closeAuditSessionModal()" class="text-gray-400 hover:text-gray-600">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                  </button>
+                </div>
+                
+                <form id="audit-session-form" class="space-y-6">
+                  <div>
+                    <label for="audit-date" class="label">Audit Date</label>
+                    <input type="date" id="audit-date" name="audit-date" class="input w-full" required>
+                  </div>
+                  
+                  <div>
+                    <label for="department-select" class="label">Department/Location</label>
+                    <select id="department-select" name="department-select" class="input w-full" required>
+                      <option value="">Select a department</option>
+                      <option value="emergency">Emergency Department (A&E)</option>
+                      <option value="ward-4a">Ward 4A</option>
+                      <option value="ward-4b">Ward 4B</option>
+                      <option value="ward-3a">Ward 3A</option>
+                      <option value="ward-3b">Ward 3B</option>
+                      <option value="ward-2a">Ward 2A</option>
+                      <option value="ward-2b">Ward 2B</option>
+                      <option value="ward-2c">Ward 2C</option>
+                      <option value="hdw">High Dependency Ward (HDW)</option>
+                      <option value="icu">Intensive Care Unit (ICU)</option>
+                      <option value="og-clinic">O&G Clinic</option>
+                      <option value="eye-clinic">Eye Clinic</option>
+                      <option value="dental-clinic">Dental Clinic</option>
+                      <option value="orl-clinic">ORL Clinic</option>
+                      <option value="specialist-counter">Specialist Counter</option>
+                      <option value="psychiatric-clinic">Psychiatric Clinic</option>
+                      <option value="nurses-home">Nurses Home</option>
+                      <option value="og-scn">O&G SCN</option>
+                      <option value="og-labour-room">O&G Labour Room</option>
+                      <option value="og-pac">O&G PAC</option>
+                      <option value="inpatient-pharmacy">Inpatient Pharmacy</option>
+                      <option value="outpatient-pharmacy">Outpatient Pharmacy</option>
+                      <option value="laboratory">Laboratory</option>
+                      <option value="outpatient-laboratory">Outpatient Laboratory</option>
+                      <option value="hemodialysis">Hemodialysis Unit</option>
+                      <option value="rehabilitation">Rehabilitation</option>
+                      <option value="forensic">Forensic Unit</option>
+                      <option value="revenue">Revenue Unit</option>
+                      <option value="accident-emergency">Accident & Emergency</option>
+                    </select>
+                  </div>
+                  
+                  <div class="flex space-x-3">
+                    <button type="button" onclick="closeAuditSessionModal()" class="btn flex-1">Cancel</button>
+                    <button type="submit" class="btn btn-primary flex-1">Create Session</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+
+            <!-- Digital Checklist Interface -->
+            <div id="digital-checklist-interface" style="display: none;">
+              <!-- Checklist Header -->
+              <div class="bg-white border-b border-gray-200 px-4 py-4 lg:px-8">
+                <div class="flex items-center justify-between">
+                  <div>
+                    <h1 class="text-2xl lg:text-3xl font-bold text-gray-900" id="checklist-title">Digital Audit Checklist</h1>
+                    <p class="text-lg text-gray-600" id="checklist-subtitle">Conducting BCP audit for department</p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Main Content Area - Two Column Layout -->
+              <div class="flex-1 overflow-auto">
+                <!-- Left Panel - Session Details -->
+                <div class="audit-session-panel">
+                  <h2 class="audit-session-title" id="session-title">Series 7 - Dental Clinic</h2>
+                  <p class="audit-session-date" id="session-date">Audit Date: 2025-08-24</p>
+                  
+                  <div class="audit-session-actions">
+                    <button onclick="DigitalAuditSystem.backToSessions()" class="btn btn-secondary flex items-center space-x-2">
+                      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                      </svg>
+                      <span>← Back to Sessions</span>
+                    </button>
+                    <button onclick="DigitalAuditSystem.saveChecklist()" class="btn btn-primary flex items-center space-x-2">
+                      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4"></path>
+                      </svg>
+                      <span>Save Progress</span>
+                    </button>
+                  </div>
+                </div>
+
+                <!-- Right Panel - Audit Content -->
+                <div class="audit-content-panel">
+                  <!-- Progress Section -->
+                  <div class="audit-progress-section">
+                    <div class="audit-progress-header">
+                      <span class="audit-progress-label">Audit Progress</span>
+                      <span class="audit-progress-text" id="progress-text">0% Complete</span>
+                    </div>
+                    <div class="audit-progress-bar">
+                      <div class="audit-progress-fill" id="progress-bar" style="width: 0%"></div>
+                    </div>
+                  </div>
+
+                  <!-- Assessment Card -->
+                  <div class="assessment-card">
+                    <h3 class="assessment-title">Preparedness Assessment</h3>
+                    <p class="assessment-description">Check if the department has all required BCP documents and materials prepared.</p>
+                    
+                    <div class="checklist-items" id="checklist-sections">
+                      <!-- Checklist items will be dynamically loaded here -->
+                    </div>
+                  </div>
+
+                  <!-- Navigation Buttons -->
+                  <div class="flex items-center justify-between mt-8 pt-6 border-t border-gray-200">
+                    <button onclick="DigitalAuditSystem.previousSection()" class="btn btn-secondary" id="prev-btn" disabled>
+                      <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                      </svg>
+                      Previous
+                    </button>
+                    
+                    <div class="flex items-center space-x-4">
+                      <span class="text-sm text-gray-500" id="section-counter">Section 1 of 4</span>
+                      <div class="flex space-x-1">
+                        <div class="w-2 h-2 bg-blue-600 rounded-full" id="section-indicator-1"></div>
+                        <div class="w-2 h-2 bg-gray-300 rounded-full" id="section-indicator-2"></div>
+                        <div class="w-2 h-2 bg-gray-300 rounded-full" id="section-indicator-3"></div>
+                        <div class="w-2 h-2 bg-gray-300 rounded-full" id="section-indicator-4"></div>
+                      </div>
+                    </div>
+                    
+                    <button onclick="DigitalAuditSystem.nextSection()" class="btn btn-primary" id="next-btn">
+                      Next
+                      <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                      </svg>
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
@@ -340,6 +665,81 @@
               <h3 class="text-xl font-bold text-gray-900 mb-2" id="coming-soon-title">Coming Soon</h3>
               <p class="text-gray-600 mb-6" id="coming-soon-message">This feature is under development and will be available soon.</p>
               <button onclick="closeComingSoon()" class="btn btn-primary">Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Digital Checklist Interface -->
+      <div id="digital-checklist-interface" style="display: none;">
+        <!-- Checklist Header -->
+        <div class="bg-white border-b border-gray-200 px-4 py-4 lg:px-8">
+          <div class="flex items-center justify-between">
+            <div>
+              <h1 class="text-2xl lg:text-3xl font-bold text-gray-900" id="checklist-title">Digital Audit Checklist</h1>
+              <p class="text-lg text-gray-600" id="checklist-subtitle">Conducting BCP audit for department</p>
+            </div>
+            <div class="flex items-center space-x-3">
+              <button onclick="DigitalAuditSystem.backToSessions()" class="btn btn-secondary flex items-center space-x-2">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                </svg>
+                <span>Back to Sessions</span>
+              </button>
+              <button onclick="DigitalAuditSystem.saveChecklist()" class="btn btn-primary flex items-center space-x-2">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4"></path>
+                </svg>
+                <span>Save Progress</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Checklist Content -->
+        <div class="flex-1 overflow-auto">
+          <div class="p-4 lg:p-8">
+            <!-- Progress Bar -->
+            <div class="mb-8">
+              <div class="flex items-center justify-between mb-2">
+                <span class="text-sm font-medium text-gray-700">Audit Progress</span>
+                <span class="text-sm text-gray-500" id="progress-text">0% Complete</span>
+              </div>
+              <div class="w-full bg-gray-200 rounded-full h-2">
+                <div class="bg-blue-600 h-2 rounded-full transition-all duration-300" id="progress-bar" style="width: 0%"></div>
+              </div>
+            </div>
+
+            <!-- Checklist Sections -->
+            <div id="checklist-sections" class="space-y-8">
+              <!-- Sections will be dynamically loaded here -->
+            </div>
+
+            <!-- Navigation Buttons -->
+            <div class="flex items-center justify-between mt-8 pt-6 border-t border-gray-200">
+              <button onclick="DigitalAuditSystem.previousSection()" class="btn btn-secondary" id="prev-btn" disabled>
+                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                </svg>
+                Previous
+              </button>
+              
+              <div class="flex items-center space-x-4">
+                <span class="text-sm text-gray-500" id="section-counter">Section 1 of 4</span>
+                <div class="flex space-x-1">
+                  <div class="w-2 h-2 bg-blue-600 rounded-full" id="section-indicator-1"></div>
+                  <div class="w-2 h-2 bg-gray-300 rounded-full" id="section-indicator-2"></div>
+                  <div class="w-2 h-2 bg-gray-300 rounded-full" id="section-indicator-3"></div>
+                  <div class="w-2 h-2 bg-gray-300 rounded-full" id="section-indicator-4"></div>
+                </div>
+              </div>
+              
+              <button onclick="DigitalAuditSystem.nextSection()" class="btn btn-primary" id="next-btn">
+                Next
+                <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                </svg>
+              </button>
             </div>
           </div>
         </div>
@@ -373,13 +773,16 @@
    <!-- Load all modular JavaScript files in dependency order -->
    <script src="js/01-app-state.js"></script>
    <script src="js/02-error-handling.js"></script>
+   <script src="js/07-api-service.js"></script>
    <script src="js/03-authentication.js"></script>
    <script src="js/04-role-manager.js"></script>
    <script src="js/05-ui-manager.js"></script>
    <script src="js/06-event-handlers.js"></script>
    <script src="js/07-dashboard-data.js"></script>
    <script src="js/08-dashboard-functions.js"></script>
-   <script src="js/09-app-initialization.js"></script>
-   <script src="js/main.js"></script>
+   <script src="js/10-digital-audit-system.js"></script>
+     <script src="js/09-app-initialization.js"></script>
+  <script src="js/11-header-functions.js"></script>
+  <script src="js/main.js"></script>
  </body>
  </html>

@@ -5,8 +5,6 @@
 const App = {
   async init() {
     try {
-      console.log('BCP Audit System initializing...');
-      
       // Add animation complete class after page load
       setTimeout(() => {
         document.body.classList.add('animation-complete');
@@ -16,7 +14,12 @@ const App = {
       // Initialize event listeners
       this.initializeEventListeners();
       
-      console.log('BCP Audit System initialized successfully');
+      // Show role selection initially
+      UI.showRoleSelection();
+      
+      // Set initial navigation active state (Dashboard should be active by default)
+      this.setInitialActiveState();
+      
     } catch (error) {
       ErrorHandler.handleError(error, 'App.init');
     }
@@ -121,6 +124,29 @@ const App = {
     } catch (error) {
       ErrorHandler.handleError(error, 'App.initializeEventListeners');
     }
+  },
+
+  // Set initial navigation active state
+  setInitialActiveState() {
+    try {
+      // Remove active class from all navigation items
+      const navItems = document.querySelectorAll('.nav-item, .mobile-menu-item');
+      navItems.forEach(item => item.classList.remove('active'));
+      
+      // Add active class to Dashboard button by default
+      const dashboardBtn = document.querySelector('button[onclick="showDashboard()"]');
+      if (dashboardBtn) {
+        dashboardBtn.classList.add('active');
+      }
+      
+      // Also update mobile menu item
+      const mobileDashboardBtn = document.querySelector('.mobile-menu-item[onclick*="showDashboard"]');
+      if (mobileDashboardBtn) {
+        mobileDashboardBtn.classList.add('active');
+      }
+    } catch (error) {
+      ErrorHandler.handleError(error, 'App.setInitialActiveState');
+    }
   }
 };
 
@@ -131,3 +157,4 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // Export for use in other modules
 window.App = App;
+

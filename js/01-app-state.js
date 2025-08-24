@@ -26,3 +26,4 @@ function debounce(func, wait) {
 // Export for use in other modules
 window.AppState = AppState;
 window.debounce = debounce;
+

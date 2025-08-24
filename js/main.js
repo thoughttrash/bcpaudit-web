@@ -14,6 +14,7 @@
 // 7. Dashboard Data - Demo data and chart instances
 // 8. Dashboard Functions - Chart initialization and KPI updates
 // 9. App Initialization - Main app object and initialization logic
+// 10. Header Functions - Modern header navigation and mobile menu
 
 // Note: The modules are loaded in dependency order to ensure proper initialization
 // Each module exports its functionality to the global window object for cross-module access
@@ -22,3 +23,4 @@ console.log('Loading BCP Audit System modules...');
 
 // The modules will be loaded by the HTML file in the correct order
 // This file serves as documentation for the modular structure
+

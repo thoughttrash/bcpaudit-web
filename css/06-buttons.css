@@ -259,3 +259,98 @@
     opacity: 0.8; 
   }
 }
+
+/* Dark mode support for buttons */
+@media (prefers-color-scheme: dark) {
+  .btn {
+    background: rgb(39 39 42);
+    color: rgb(244 244 245);
+    border-color: rgb(63 63 70);
+    box-shadow: 0 1px 2px rgba(0,0,0,.1);
+  }
+  
+  .btn:hover {
+    background: rgb(63 63 70);
+    box-shadow: 0 2px 6px rgba(0,0,0,.15);
+  }
+  
+  .btn:active {
+    background: rgb(82 82 91);
+  }
+  
+  .btn-secondary {
+    background: rgb(39 39 42);
+    color: rgb(244 244 245);
+    border-color: rgb(63 63 70);
+  }
+  
+  .btn-secondary:hover {
+    background: rgb(63 63 70);
+    border-color: rgb(82 82 91);
+  }
+  
+  .btn-secondary:active {
+    background: rgb(82 82 91);
+  }
+  
+  .btn-primary {
+    background: rgb(37 99 235);
+    color: white;
+    border-color: rgb(37 99 235);
+  }
+  
+  .btn-primary:hover {
+    background: rgb(29 78 216);
+    border-color: rgb(29 78 216);
+  }
+  
+  .btn-primary:active {
+    background: rgb(30 64 175);
+    border-color: rgb(30 64 175);
+  }
+  
+  .unit-btn {
+    background: rgb(39 39 42);
+    color: rgb(244 244 245);
+    border-color: rgb(37 99 235);
+  }
+  
+  .unit-btn:hover {
+    background: rgb(63 63 70);
+    border-color: rgb(29 78 216);
+  }
+  
+  .unit-btn.selected {
+    background: rgb(37 99 235);
+    color: white;
+    border-color: rgb(37 99 235);
+  }
+  
+  .action-btn {
+    background: rgb(39 39 42);
+    color: rgb(244 244 245);
+    border: 1px solid rgb(63 63 70);
+  }
+  
+  .action-btn:hover {
+    background: rgb(63 63 70);
+  }
+  
+  .action-btn.primary {
+    background: rgb(30 58 138);
+    color: rgb(219 234 254);
+  }
+  
+  .action-btn.primary:hover {
+    background: rgb(30 64 175);
+  }
+  
+  .action-btn.danger {
+    background: rgb(127 29 29);
+    color: rgb(254 226 226);
+  }
+  
+  .action-btn.danger:hover {
+    background: rgb(153 27 27);
+  }
+}

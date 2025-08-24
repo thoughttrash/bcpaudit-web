@@ -3,6 +3,59 @@
 // ============================================================================
 
 const EventHandlers = {
+  
+  // Mobile Menu Functions
+  toggleMobileMenu() {
+    const mobileMenu = document.getElementById('mobile-menu');
+    if (mobileMenu) {
+      const isVisible = mobileMenu.style.display !== 'none';
+      mobileMenu.style.display = isVisible ? 'none' : 'block';
+    }
+  },
+  
+  closeMobileMenu() {
+    const mobileMenu = document.getElementById('mobile-menu');
+    if (mobileMenu) {
+      mobileMenu.style.display = 'none';
+    }
+  },
+
+  // Show dashboard function
+  showDashboard() {
+    console.log('showDashboard called');
+    
+    // Hide all content sections
+    const allSections = document.querySelectorAll('#dashboard-overview, #digital-audit-system, #digital-checklist-interface');
+    console.log('Found sections:', allSections);
+    allSections.forEach(section => {
+      if (section) {
+        section.style.display = 'none';
+        console.log('Hidden section:', section.id);
+      }
+    });
+    
+    // Show dashboard
+    const dashboard = document.getElementById('dashboard-overview');
+    console.log('Dashboard element:', dashboard);
+    if (dashboard) {
+      dashboard.style.display = 'block';
+      console.log('Dashboard shown');
+    }
+    
+    // Update navigation active state
+    this.updateDashboardActiveState();
+    
+    // Close mobile menu if open
+    if (window.HeaderManager) {
+      HeaderManager.closeMobileMenu();
+    }
+  },
+
+  // Handle logout function
+  handleLogout() {
+    EventHandlers.handleLogout();
+  },
+
   // Role selection handler
   async handleRoleSelection(role) {
     try {
@@ -36,7 +89,7 @@ const EventHandlers = {
           RoleManager.initializeRole('ict-admin');
           initICTDashboard(); // Initialize the ICT dashboard with charts and KPI cards
           UI.showNotification('Login successful! Welcome back.', 'success');
-        }, 500);
+        }, 300); // Reduced from 500ms to 300ms for faster response
       }
     } catch (error) {
       ErrorHandler.handleError(error, 'EventHandlers.handleLoginForm');
@@ -145,6 +198,25 @@ const EventHandlers = {
     } catch (error) {
       ErrorHandler.handleError(error, 'EventHandlers.handleModalKeydown');
     }
+  },
+  
+  // Update dashboard active state
+  updateDashboardActiveState() {
+    // Remove active class from all navigation items
+    const navItems = document.querySelectorAll('.nav-item, .mobile-menu-item');
+    navItems.forEach(item => item.classList.remove('active'));
+    
+    // Add active class to Dashboard button
+    const dashboardBtn = document.querySelector('button[onclick="showDashboard()"]');
+    if (dashboardBtn) {
+      dashboardBtn.classList.add('active');
+    }
+    
+    // Also update mobile menu item
+    const mobileDashboardBtn = document.querySelector('.mobile-menu-item[onclick*="showDashboard"]');
+    if (mobileDashboardBtn) {
+      mobileDashboardBtn.classList.add('active');
+    }
   }
 };
 
@@ -166,3 +238,8 @@ function closeICTLogin() {
 window.EventHandlers = EventHandlers;
 window.selectRole = selectRole;
 window.closeICTLogin = closeICTLogin;
+window.toggleMobileMenu = () => EventHandlers.toggleMobileMenu();
+window.closeMobileMenu = () => EventHandlers.closeMobileMenu();
+window.showDashboard = () => EventHandlers.showDashboard();
+window.handleLogout = () => EventHandlers.handleLogout();
+

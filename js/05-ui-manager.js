@@ -286,3 +286,4 @@ const UI = {
 
 // Export for use in other modules
 window.UI = UI;
+
