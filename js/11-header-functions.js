@@ -1,6 +1,147 @@
 // ============================================================================
-// MODERN HEADER FUNCTIONS - CLEAN, MINIMALIST NAVIGATION
+// ENHANCED HEADER FUNCTIONS - MODERN NAVIGATION WITH NOTIFICATIONS
 // ============================================================================
+
+// ============================================================================
+// ENHANCED NOTIFICATION SYSTEM
+// ============================================================================
+
+// Create notification container if it doesn't exist
+function ensureNotificationContainer() {
+  let container = document.getElementById('notification-container');
+  if (!container) {
+    container = document.createElement('div');
+    container.id = 'notification-container';
+    container.className = 'notification-container';
+    document.body.appendChild(container);
+  }
+  return container;
+}
+
+// Enhanced notification function
+function showNotification(type, title, message, duration = 5000) {
+  const container = ensureNotificationContainer();
+  
+  const notification = document.createElement('div');
+  notification.className = `notification ${type}`;
+  
+  const iconMap = {
+    success: '✓',
+    error: '✕',
+    warning: '⚠',
+    info: 'ℹ'
+  };
+  
+  notification.innerHTML = `
+    <div class="notification-icon ${type}">
+      <span>${iconMap[type] || 'ℹ'}</span>
+    </div>
+    <div class="notification-content">
+      <div class="notification-title">${title}</div>
+      <div class="notification-message">${message}</div>
+    </div>
+    <button class="notification-close" onclick="this.parentElement.remove()">
+      <svg width="12" height="12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+      </svg>
+    </button>
+  `;
+  
+  container.appendChild(notification);
+  
+  // Trigger animation
+  setTimeout(() => {
+    notification.classList.add('show');
+  }, 10);
+  
+  // Auto dismiss
+  if (duration > 0) {
+    setTimeout(() => {
+      notification.classList.add('hide');
+      setTimeout(() => {
+        if (notification.parentElement) {
+          notification.remove();
+        }
+      }, 300);
+    }, duration);
+  }
+  
+  return notification;
+}
+
+// Convenience functions
+function showSuccess(title, message, duration) {
+  return showNotification('success', title, message, duration);
+}
+
+function showError(title, message, duration) {
+  return showNotification('error', title, message, duration);
+}
+
+function showWarning(title, message, duration) {
+  return showNotification('warning', title, message, duration);
+}
+
+function showInfo(title, message, duration) {
+  return showNotification('info', title, message, duration);
+}
+
+// ============================================================================
+// ENHANCED LOADING SYSTEM
+// ============================================================================
+
+// Enhanced loading overlay with progress
+function showLoadingOverlay(message = 'Loading...', showProgress = true) {
+  const overlay = document.getElementById('loadingOverlay');
+  if (!overlay) return;
+  
+  const textElement = overlay.querySelector('.loading-text');
+  const progressElement = overlay.querySelector('.loading-progress');
+  
+  if (textElement) {
+    textElement.textContent = message;
+  }
+  
+  if (progressElement) {
+    progressElement.style.display = showProgress ? 'block' : 'none';
+  }
+  
+  overlay.classList.remove('hidden');
+  document.body.style.overflow = 'hidden';
+}
+
+function hideLoadingOverlay() {
+  const overlay = document.getElementById('loadingOverlay');
+  if (!overlay) return;
+  
+  overlay.classList.add('hidden');
+  document.body.style.overflow = '';
+  
+  // Reset after animation
+  setTimeout(() => {
+    const textElement = overlay.querySelector('.loading-text');
+    if (textElement) {
+      textElement.textContent = 'Loading BCP System...';
+    }
+  }, 500);
+}
+
+// Progress loading with percentage
+function updateLoadingProgress(percentage, message) {
+  const overlay = document.getElementById('loadingOverlay');
+  if (!overlay) return;
+  
+  const textElement = overlay.querySelector('.loading-text');
+  const progressBar = overlay.querySelector('.loading-progress-bar');
+  
+  if (textElement && message) {
+    textElement.textContent = message;
+  }
+  
+  if (progressBar) {
+    progressBar.style.width = `${Math.min(100, Math.max(0, percentage))}%`;
+  }
+}
 
 // Header functionality namespace
 const HeaderManager = {
