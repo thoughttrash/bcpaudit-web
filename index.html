@@ -118,10 +118,10 @@
   </div>
 
   <!-- Main Application (Hidden initially) -->
-  <div id="mainApp" class="max-w-6xl mx-auto space-y-6" style="display: none;" role="main" id="mainContent">
+  <div id="mainApp" class="w-full space-y-6" style="display: none;" role="main" id="mainContent">
     <!-- Sticky Header -->
     <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-sm border-b border-gray-200 shadow-sm header-enter">
-      <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="w-full px-4 sm:px-6 lg:px-8">
         <div class="flex items-center justify-between py-4">
           <!-- Left Section: Logo, Title, and Breadcrumbs -->
           <div class="flex items-center space-x-4">
@@ -369,7 +369,17 @@
    <!-- Notification Container -->
    <div id="notification-container" class="fixed top-4 right-4 z-[99999] space-y-2" role="status" aria-live="polite" aria-label="Notifications"></div>
 
-   <!-- JavaScript -->
-   <script src="app.js"></script>
+   <!-- JavaScript - Modular Structure -->
+   <!-- Load all modular JavaScript files in dependency order -->
+   <script src="js/01-app-state.js"></script>
+   <script src="js/02-error-handling.js"></script>
+   <script src="js/03-authentication.js"></script>
+   <script src="js/04-role-manager.js"></script>
+   <script src="js/05-ui-manager.js"></script>
+   <script src="js/06-event-handlers.js"></script>
+   <script src="js/07-dashboard-data.js"></script>
+   <script src="js/08-dashboard-functions.js"></script>
+   <script src="js/09-app-initialization.js"></script>
+   <script src="js/main.js"></script>
  </body>
  </html>
