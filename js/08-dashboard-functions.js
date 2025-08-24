@@ -261,12 +261,16 @@ async function initICTDashboard() {
     // Load dashboard data (this already calls updateKPICards and initDashboardCharts)
     await loadDashboardData();
     
+    // Initialize chart toggle states
+    initializeChartStates();
+    
   } catch (error) {
     console.error('Error initializing ICT dashboard:', error);
     // Fallback - try to initialize with existing data
     try {
       await updateKPICards();
       await initDashboardCharts();
+      initializeChartStates();
     } catch (fallbackError) {
       console.error('Fallback initialization also failed:', fallbackError);
     }
@@ -299,6 +303,115 @@ function showChartFallback() {
   }
 }
 
+// Toggle chart visibility
+function toggleChart(chartId) {
+  try {
+    const chartContainer = document.getElementById(chartId + 'Container');
+    const chartBody = chartContainer?.closest('.chart-body-modern');
+    const toggleButton = chartBody?.closest('.chart-card-modern')?.querySelector('.chart-toggle-modern');
+    const buttonText = toggleButton?.querySelector('span');
+    const buttonIcon = toggleButton?.querySelector('svg');
+    
+    if (!chartContainer || !chartBody || !toggleButton) {
+      console.error('Chart elements not found for:', chartId);
+      return;
+    }
+    
+    const isHidden = chartBody.classList.contains('hidden');
+    
+    if (isHidden) {
+      // Show chart
+      chartBody.classList.remove('hidden');
+      chartContainer.classList.remove('hidden');
+      toggleButton.classList.remove('chart-hidden');
+      toggleButton.classList.add('chart-visible');
+      
+      if (buttonText) buttonText.textContent = 'Hide Chart';
+      // Arrow will point down (180deg) when chart is visible - handled by CSS
+      
+      // Trigger chart resize after animation
+      setTimeout(() => {
+        const chart = window[chartId];
+        if (chart && typeof chart.resize === 'function') {
+          chart.resize();
+        }
+      }, 300);
+      
+    } else {
+      // Hide chart
+      chartBody.classList.add('hidden');
+      chartContainer.classList.add('hidden');
+      toggleButton.classList.remove('chart-visible');
+      toggleButton.classList.add('chart-hidden');
+      
+      if (buttonText) buttonText.textContent = 'Show Chart';
+      // Arrow will point up (0deg) when chart is hidden - handled by CSS
+    }
+    
+  } catch (error) {
+    console.error('Error toggling chart:', error);
+    ErrorHandler.handleError(error, 'toggleChart');
+  }
+}
+
+// Initialize chart states (all visible by default)
+function initializeChartStates() {
+  try {
+    const chartCards = document.querySelectorAll('.chart-card-modern');
+    
+    chartCards.forEach(card => {
+      const toggleButton = card.querySelector('.chart-toggle-modern');
+      const buttonText = toggleButton?.querySelector('span');
+      const buttonIcon = toggleButton?.querySelector('svg');
+      const chartBody = card.querySelector('.chart-body-modern');
+      const chartContainer = card.querySelector('.chart-container-modern');
+      
+      if (toggleButton && buttonText && buttonIcon) {
+        // Ensure chart body is visible
+        if (chartBody) {
+          chartBody.classList.remove('hidden');
+        }
+        if (chartContainer) {
+          chartContainer.classList.remove('hidden');
+        }
+        
+        // Set initial state as visible
+        toggleButton.classList.remove('chart-hidden');
+        toggleButton.classList.add('chart-visible');
+        buttonText.textContent = 'Hide Chart';
+        // Arrow direction handled by CSS class
+      }
+    });
+    
+    console.log('Chart states initialized successfully');
+    
+  } catch (error) {
+    console.error('Error initializing chart states:', error);
+  }
+}
+
+// Debug function to check chart states
+function debugChartStates() {
+  try {
+    const chartCards = document.querySelectorAll('.chart-card-modern');
+    
+    chartCards.forEach((card, index) => {
+      const toggleButton = card.querySelector('.chart-toggle-modern');
+      const chartBody = card.querySelector('.chart-body-modern');
+      const chartContainer = card.querySelector('.chart-container-modern');
+      
+      console.log(`Chart ${index + 1}:`, {
+        buttonExists: !!toggleButton,
+        bodyHidden: chartBody?.classList.contains('hidden'),
+        containerHidden: chartContainer?.classList.contains('hidden'),
+        buttonClasses: toggleButton?.classList.toString()
+      });
+    });
+    
+  } catch (error) {
+    console.error('Error debugging chart states:', error);
+  }
+}
 
 
 // Export for use in other modules
@@ -310,4 +423,7 @@ window.showComingSoon = showComingSoon;
 window.closeComingSoon = closeComingSoon;
 window.initICTDashboard = initICTDashboard;
 window.showChartFallback = showChartFallback;
+window.toggleChart = toggleChart;
+window.initializeChartStates = initializeChartStates;
+window.debugChartStates = debugChartStates;
 

@@ -1,76 +1,74 @@
 // ============================================================================
-// HEADER FUNCTIONS - MODERN HEADER NAVIGATION & MOBILE MENU
+// MODERN HEADER FUNCTIONS - CLEAN, MINIMALIST NAVIGATION
 // ============================================================================
 
 // Header functionality namespace
 const HeaderManager = {
   // Initialize header functionality
   init() {
+    console.log('HeaderManager.init() called');
+    console.log('Header element found:', !!document.getElementById('mainHeader'));
+    
     this.setupScrollEffects();
-    this.setupDropdowns();
+    this.setupNavigation();
     this.setupMobileMenu();
-    this.setupChartToggles();
+    
+    // Debug: Check header positioning
+    this.debugHeaderPosition();
+  },
+
+  // Debug header positioning
+  debugHeaderPosition() {
+    const header = document.getElementById('mainHeader');
+    if (header) {
+      const computedStyle = window.getComputedStyle(header);
+      console.log('Header positioning debug:', {
+        position: computedStyle.position,
+        top: computedStyle.top,
+        left: computedStyle.left,
+        right: computedStyle.right,
+        zIndex: computedStyle.zIndex,
+        width: computedStyle.width,
+        height: computedStyle.height
+      });
+    } else {
+      console.error('Header element not found for debugging');
+    }
   },
 
   // Setup scroll effects for sticky header
   setupScrollEffects() {
     const header = document.getElementById('mainHeader');
-    if (!header) return;
+    if (!header) {
+      console.error('Header element not found in setupScrollEffects');
+      return;
+    }
 
-    let lastScrollTop = 0;
+    console.log('Setting up scroll effects for header');
     
     window.addEventListener('scroll', () => {
       const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
       
-      // Add scrolled class for styling
+      // Add scrolled class for styling (optional enhancement)
       if (scrollTop > 10) {
         header.classList.add('scrolled');
       } else {
         header.classList.remove('scrolled');
       }
-      
-      lastScrollTop = scrollTop;
     });
   },
 
-  // Setup dropdown navigation menus
-  setupDropdowns() {
-    const dropdowns = document.querySelectorAll('.nav-dropdown');
+  // Setup navigation functionality
+  setupNavigation() {
+    const navLinks = document.querySelectorAll('.nav-link, .mobile-nav-link');
     
-    dropdowns.forEach(dropdown => {
-      const toggle = dropdown.querySelector('.nav-dropdown-toggle');
-      const menu = dropdown.querySelector('.nav-dropdown-menu');
-      
-      if (!toggle || !menu) return;
-      
-      // Toggle dropdown on click
-      toggle.addEventListener('click', (e) => {
-        e.preventDefault();
-        e.stopPropagation();
+    navLinks.forEach(link => {
+      link.addEventListener('click', (e) => {
+        // Remove active class from all links
+        navLinks.forEach(l => l.classList.remove('active'));
         
-        // Close other dropdowns
-        dropdowns.forEach(other => {
-          if (other !== dropdown) {
-            other.classList.remove('active');
-          }
-        });
-        
-        // Toggle current dropdown
-        dropdown.classList.toggle('active');
-      });
-      
-      // Close dropdown when clicking outside
-      document.addEventListener('click', (e) => {
-        if (!dropdown.contains(e.target)) {
-          dropdown.classList.remove('active');
-        }
-      });
-      
-      // Close dropdown on escape key
-      document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape') {
-          dropdown.classList.remove('active');
-        }
+        // Add active class to clicked link
+        link.classList.add('active');
       });
     });
   },
@@ -81,8 +79,6 @@ const HeaderManager = {
     const mobileMenu = document.getElementById('mobileMenu');
     
     console.log('Mobile menu setup:', { mobileMenuBtn, mobileMenu });
-    console.log('Mobile menu content:', mobileMenu?.innerHTML);
-    console.log('Mobile menu computed style:', mobileMenu ? window.getComputedStyle(mobileMenu) : 'No mobile menu');
     
     if (!mobileMenuBtn || !mobileMenu) {
       console.log('Mobile menu elements not found');
@@ -92,15 +88,14 @@ const HeaderManager = {
     // Toggle mobile menu
     mobileMenuBtn.addEventListener('click', (e) => {
       e.preventDefault();
-      e.stopPropagation(); // Prevent event bubbling
+      e.stopPropagation();
       console.log('Mobile menu button clicked');
       this.toggleMobileMenu();
     });
     
-    // Close mobile menu when clicking outside (with delay to prevent immediate closing)
+    // Close mobile menu when clicking outside
     document.addEventListener('click', (e) => {
       if (!mobileMenu.contains(e.target) && !mobileMenuBtn.contains(e.target)) {
-        // Add a small delay to prevent immediate closing
         setTimeout(() => {
           if (mobileMenu.classList.contains('active')) {
             this.closeMobileMenu();
@@ -141,10 +136,7 @@ const HeaderManager = {
     if (!mobileMenu) return;
     
     console.log('Opening mobile menu');
-    console.log('Mobile menu element:', mobileMenu);
-    console.log('Mobile menu classes before:', mobileMenu.className);
     mobileMenu.classList.add('active');
-    console.log('Mobile menu classes after:', mobileMenu.className);
     document.body.style.overflow = 'hidden'; // Prevent background scroll
   },
 
@@ -158,44 +150,10 @@ const HeaderManager = {
     document.body.style.overflow = ''; // Restore scroll
   },
 
-  // Setup chart toggle functionality for mobile
-  setupChartToggles() {
-    const chartToggles = document.querySelectorAll('.chart-toggle');
-    
-    chartToggles.forEach(toggle => {
-      toggle.addEventListener('click', (e) => {
-        e.preventDefault();
-        const chartId = toggle.getAttribute('onclick')?.match(/'([^']+)'/)?.[1];
-        if (chartId) {
-          this.toggleChart(chartId);
-        }
-      });
-    });
-  },
-
-  // Toggle chart visibility on mobile
-  toggleChart(chartId) {
-    const container = document.getElementById(chartId + 'Container');
-    const toggle = document.querySelector(`[onclick="toggleChart('${chartId}')"]`);
-    
-    if (!container || !toggle) return;
-    
-    const isExpanded = container.classList.contains('expanded');
-    
-    if (isExpanded) {
-      container.classList.remove('expanded');
-      toggle.classList.remove('active');
-    } else {
-      container.classList.add('expanded');
-      toggle.classList.add('active');
-    }
-  },
-
   // Update active navigation item
   updateActiveNavItem(activeId) {
-    // Remove active class from all nav items
-    const navItems = document.querySelectorAll('.nav-item, .mobile-menu-item');
-    navItems.forEach(item => item.classList.remove('active'));
+    const navLinks = document.querySelectorAll('.nav-link, .mobile-nav-link');
+    navLinks.forEach(link => link.classList.remove('active'));
     
     // Add active class to current item
     const activeItem = document.querySelector(`[onclick*="${activeId}"]`);
@@ -222,43 +180,6 @@ const HeaderManager = {
 };
 
 // Global functions for HTML onclick handlers
-window.toggleDropdown = (dropdownId) => {
-  console.log('toggleDropdown called with:', dropdownId);
-  const dropdown = document.getElementById(dropdownId);
-  if (!dropdown) {
-    console.log('Dropdown not found:', dropdownId);
-    return;
-  }
-  
-  // Close other dropdowns
-  document.querySelectorAll('.nav-dropdown').forEach(other => {
-    if (other.id !== dropdownId) {
-      other.classList.remove('active');
-    }
-  });
-  
-  // Toggle current dropdown
-  dropdown.classList.toggle('active');
-  console.log('Dropdown toggled:', dropdownId, 'Active:', dropdown.classList.contains('active'));
-};
-
-// Alternative function for direct dropdown toggle
-function toggleNavDropdown(dropdownId) {
-  const dropdown = document.querySelector(`.nav-dropdown:has(#${dropdownId})`);
-  if (!dropdown) return;
-  
-  // Close other dropdowns
-  document.querySelectorAll('.nav-dropdown').forEach(other => {
-    if (other !== dropdown) {
-      other.classList.remove('active');
-    }
-  });
-  
-  // Toggle current dropdown
-  dropdown.classList.toggle('active');
-}
-
-// Global functions for HTML onclick handlers
 window.toggleMobileMenu = () => {
   console.log('Global toggleMobileMenu called');
   if (window.HeaderManager) {
@@ -276,14 +197,6 @@ window.closeMobileMenu = () => {
   }
 };
 
-window.toggleChart = (chartId) => {
-  if (window.HeaderManager) {
-    HeaderManager.toggleChart(chartId);
-  } else {
-    console.error('HeaderManager not found');
-  }
-};
-
 // Initialize header when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
   console.log('HeaderManager initializing...');
@@ -293,28 +206,9 @@ document.addEventListener('DOMContentLoaded', () => {
   console.log('Global functions available:', {
     toggleMobileMenu: typeof window.toggleMobileMenu,
     closeMobileMenu: typeof window.closeMobileMenu,
-    toggleDropdown: typeof window.toggleDropdown,
     showDashboard: typeof window.showDashboard,
     showDigitalAuditSystem: typeof window.showDigitalAuditSystem
   });
-  
-  // Test dashboard button
-  const dashboardBtn = document.querySelector('button[onclick="showDashboard()"]');
-  console.log('Dashboard button found:', dashboardBtn);
-  if (dashboardBtn) {
-    dashboardBtn.addEventListener('click', (e) => {
-      console.log('Dashboard button clicked via event listener');
-    });
-  }
-  
-  // Test Digital Audit Tool button
-  const digitalAuditBtn = document.querySelector('button[onclick="showDigitalAuditSystem()"]');
-  console.log('Digital Audit Tool button found:', digitalAuditBtn);
-  if (digitalAuditBtn) {
-    digitalAuditBtn.addEventListener('click', (e) => {
-      console.log('Digital Audit Tool button clicked via event listener');
-    });
-  }
 });
 
 // Export for use in other modules

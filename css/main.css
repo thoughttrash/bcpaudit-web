@@ -13,50 +13,51 @@
 /* 3. Base Layout - HTML/Body Setup & Page Animations */
 @import url('./03-base-layout.css');
 
-/* 4. Cards - Base Card Design & Role Selection Cards */
+/* 4. Header - Modern Sticky Navigation & Dropdown Menus (Moved up for priority) */
+@import url('./16-header.css');
+
+/* 5. Cards - Base Card Design & Role Selection Cards */
 @import url('./04-cards.css');
 
-/* 5. Forms - Input, Button & Form Element Styles */
+/* 6. Forms - Input, Button & Form Element Styles */
 @import url('./05-forms.css');
 
-/* 6. Buttons - Button Components & Variants */
+/* 7. Buttons - Button Components & Variants */
 @import url('./06-buttons.css');
 
-/* 7. Badges - Role Badges & Status Indicators */
+/* 8. Badges - Role Badges & Status Indicators */
 @import url('./07-badges.css');
 
-/* 8. Tabs - Tab Components & Navigation */
+/* 9. Tabs - Tab Components & Navigation */
 @import url('./08-tabs.css');
 
-/* 9. Utilities - Utility Classes & Helper Functions */
+/* 10. Utilities - Utility Classes & Helper Functions */
 @import url('./09-utilities.css');
 
-/* 10. Animations - Animations & Transitions */
+/* 11. Animations - Animations & Transitions */
 @import url('./10-animations.css');
 
-/* 11. Notifications - Notification System & Loading Overlays */
+/* 12. Notifications - Notification System & Loading Overlays */
 @import url('./11-notifications.css');
 
-/* 12. Sidebar - Sidebar Navigation & Dashboard Components */
+/* 13. Sidebar - Sidebar Navigation & Dashboard Components */
 @import url('./12-sidebar.css');
 
-/* 13. Responsive - Responsive Design & Breakpoints */
+/* 14. Responsive - Responsive Design & Breakpoints */
 @import url('./13-responsive.css');
 
-/* 14. Accessibility - Focus Indicators & Accessibility Features */
+/* 15. Accessibility - Focus Indicators & Accessibility Features */
 @import url('./14-accessibility.css');
 
-/* 15. Components - Tables, Forms & Special Components */
+/* 16. Components - Tables, Forms & Special Components */
 @import url('./15-components.css');
 @import url('./18-dark-mode.css');
 
-/* 19. Audit Interface Layout - Digital Audit Tool Positioning */
+/* 17. Audit Interface Layout - Digital Audit Tool Positioning */
 @import url('./19-audit-interface-layout.css');
+@import url('./20-mobile-audit-interface.css');
 
-/* 16. Header - Modern Sticky Navigation & Dropdown Menus */
-@import url('./16-header.css');
-
-/* 17. Responsive Layout - Mobile-First Grid System & Card Layouts */
+/* 18. Responsive Layout - Mobile-First Grid System & Card Layouts */
 @import url('./17-responsive-layout.css');
 
 /* ============================================================================

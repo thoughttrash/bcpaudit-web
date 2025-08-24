@@ -1,116 +1,972 @@
 /* ============================================================================
- * FORMS - INPUT, BUTTON & FORM ELEMENT STYLES
+ * MOBILE-FIRST FORMS - FORM COMPONENTS & INPUT STYLES
  * ============================================================================ */
 
-/* Base form element styles */
-.input, .btn, select, textarea {
-  padding: var(--space-sm) var(--space-md);
-  border: 1px solid var(--border-color);
-  border-radius: var(--radius-md);
-  font-size: var(--font-size-sm);
-  transition: var(--transition-normal);
-  outline: none;
+/* Form Container */
+.form-container {
+  max-width: 100%;
+  margin: 0 auto;
+  padding: 1rem;
 }
 
-.input, select, textarea {
-  background: white;
-  color: var(--text-primary);
-  box-shadow: var(--shadow-sm);
+/* Form Group */
+.form-group {
+  margin-bottom: 1.5rem;
 }
 
-.input::placeholder, select::placeholder, textarea::placeholder {
-  color: var(--text-secondary);
+.form-group:last-child {
+  margin-bottom: 0;
 }
 
-.input:focus, .btn:focus, select:focus, textarea:focus {
-  border-color: var(--primary-color);
-  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
-  transform: translateY(-1px);
-}
-
-/* Label styling */
-.label {
+/* Form Label */
+.form-label {
   display: block;
-  font-size: var(--font-size-sm);
-  font-weight: 500;
-  color: var(--text-primary);
-  margin-bottom: var(--space-xs);
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, sans-serif;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #374151;
+  margin-bottom: 0.5rem;
+  line-height: 1.4;
 }
 
-/* Checkbox styling */
-.checkbox {
+.form-label.required::after {
+  content: ' *';
+  color: #ef4444;
+}
+
+/* Form Input */
+.form-input {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 1px solid #d1d5db;
+  border-radius: 10px;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, sans-serif;
+  font-size: 0.875rem;
+  color: #1f2937;
+  background: #ffffff;
+  transition: all 0.2s ease;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  min-height: 44px; /* Touch-friendly minimum height */
+}
+
+.form-input:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1), 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.form-input:hover {
+  border-color: #9ca3af;
+}
+
+.form-input:disabled {
+  background: #f9fafb;
+  color: #6b7280;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.form-input:disabled:hover {
+  border-color: #d1d5db;
+}
+
+/* Form Input States */
+.form-input.error {
+  border-color: #ef4444;
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1), 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.form-input.success {
+  border-color: #10b981;
+  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1), 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+/* Form Textarea */
+.form-textarea {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 1px solid #d1d5db;
+  border-radius: 10px;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, sans-serif;
+  font-size: 0.875rem;
+  color: #1f2937;
+  background: #ffffff;
+  transition: all 0.2s ease;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  resize: vertical;
+  min-height: 100px;
+  line-height: 1.5;
+}
+
+.form-textarea:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1), 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.form-textarea:hover {
+  border-color: #9ca3af;
+}
+
+.form-textarea:disabled {
+  background: #f9fafb;
+  color: #6b7280;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.form-textarea:disabled:hover {
+  border-color: #d1d5db;
+}
+
+/* Form Select */
+.form-select {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 1px solid #d1d5db;
+  border-radius: 10px;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, sans-serif;
+  font-size: 0.875rem;
+  color: #1f2937;
+  background: #ffffff;
+  transition: all 0.2s ease;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  min-height: 44px; /* Touch-friendly minimum height */
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
+  background-position: right 0.75rem center;
+  background-repeat: no-repeat;
+  background-size: 1.5em 1.5em;
+  padding-right: 2.5rem;
+}
+
+.form-select:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1), 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.form-select:hover {
+  border-color: #9ca3af;
+}
+
+.form-select:disabled {
+  background: #f9fafb;
+  color: #6b7280;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.form-select:disabled:hover {
+  border-color: #d1d5db;
+}
+
+/* Form Checkbox */
+.form-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  cursor: pointer;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, sans-serif;
+  font-size: 0.875rem;
+  color: #374151;
+  transition: all 0.2s ease;
+}
+
+.form-checkbox input[type="checkbox"] {
+  width: 1.25rem;
+  height: 1.25rem;
+  border: 2px solid #d1d5db;
+  border-radius: 4px;
+  background: #ffffff;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  appearance: none;
+  position: relative;
+}
+
+.form-checkbox input[type="checkbox"]:checked {
+  background: #3b82f6;
+  border-color: #3b82f6;
+}
+
+.form-checkbox input[type="checkbox"]:checked::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 0.5rem;
+  height: 0.5rem;
+  background: white;
+  border-radius: 1px;
+}
+
+.form-checkbox input[type="checkbox"]:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.form-checkbox:hover input[type="checkbox"] {
+  border-color: #9ca3af;
+}
+
+.form-checkbox:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.form-checkbox:disabled input[type="checkbox"] {
+  cursor: not-allowed;
+}
+
+/* Form Radio */
+.form-radio {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  cursor: pointer;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, sans-serif;
+  font-size: 0.875rem;
+  color: #374151;
+  transition: all 0.2s ease;
+}
+
+.form-radio input[type="radio"] {
+  width: 1.25rem;
+  height: 1.25rem;
+  border: 2px solid #d1d5db;
+  border-radius: 50%;
+  background: #ffffff;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  appearance: none;
+  position: relative;
+}
+
+.form-radio input[type="radio"]:checked {
+  border-color: #3b82f6;
+}
+
+.form-radio input[type="radio"]:checked::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 0.5rem;
+  height: 0.5rem;
+  background: #3b82f6;
+  border-radius: 50%;
+}
+
+.form-radio input[type="radio"]:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.form-radio:hover input[type="radio"] {
+  border-color: #9ca3af;
+}
+
+.form-radio:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.form-radio:disabled input[type="radio"] {
+  cursor: not-allowed;
+}
+
+/* Form Error Message */
+.form-error {
+  display: block;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, sans-serif;
+  font-size: 0.75rem;
+  color: #ef4444;
+  margin-top: 0.25rem;
+  line-height: 1.4;
+}
+
+/* Form Help Text */
+.form-help {
+  display: block;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, sans-serif;
+  font-size: 0.75rem;
+  color: #6b7280;
+  margin-top: 0.25rem;
+  line-height: 1.4;
+}
+
+/* Form Success Message */
+.form-success {
+  display: block;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, sans-serif;
+  font-size: 0.75rem;
+  color: #10b981;
+  margin-top: 0.25rem;
+  line-height: 1.4;
+}
+
+/* Form Row */
+.form-row {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+/* Form Actions */
+.form-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid #e5e7eb;
+}
+
+/* Tablet Styles */
+@media (min-width: 768px) {
+  .form-container {
+    max-width: 600px;
+    padding: 1.5rem;
+  }
+  
+  .form-input,
+  .form-textarea,
+  .form-select {
+    font-size: 0.9375rem;
+    padding: 0.875rem 1.25rem;
+  }
+  
+  .form-label {
+    font-size: 0.9375rem;
+  }
+  
+  .form-row {
+    flex-direction: row;
+    gap: 1.5rem;
+  }
+  
+  .form-row .form-group {
+    flex: 1;
+  }
+  
+  .form-actions {
+    flex-direction: row;
+    justify-content: flex-end;
+    gap: 1rem;
+  }
+}
+
+/* Desktop Styles */
+@media (min-width: 1024px) {
+  .form-container {
+    max-width: 800px;
+    padding: 2rem;
+  }
+  
+  .form-input,
+  .form-textarea,
+  .form-select {
+    font-size: 1rem;
+    padding: 1rem 1.5rem;
+  }
+  
+  .form-label {
+    font-size: 1rem;
+  }
+  
+  .form-actions {
+    gap: 1.5rem;
+  }
+}
+
+/* Large Desktop Styles */
+@media (min-width: 1280px) {
+  .form-container {
+    max-width: 1000px;
+    padding: 2.5rem;
+  }
+  
+  .form-input,
+  .form-textarea,
+  .form-select {
+    font-size: 1.0625rem;
+    padding: 1.125rem 1.75rem;
+  }
+  
+  .form-label {
+    font-size: 1.0625rem;
+  }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  .form-label {
+    color: #f1f5f9;
+  }
+  
+  .form-input,
+  .form-textarea,
+  .form-select {
+    background: #1e293b;
+    border-color: #475569;
+    color: #f1f5f9;
+  }
+  
+  .form-input:focus,
+  .form-textarea:focus,
+  .form-select:focus {
+    border-color: #3b82f6;
+  }
+  
+  .form-input:hover,
+  .form-textarea:hover,
+  .form-select:hover {
+    border-color: #64748b;
+  }
+  
+  .form-input:disabled,
+  .form-textarea:disabled,
+  .form-select:disabled {
+    background: #334155;
+    color: #94a3b8;
+  }
+  
+  .form-checkbox,
+  .form-radio {
+    color: #f1f5f9;
+  }
+  
+  .form-checkbox input[type="checkbox"],
+  .form-radio input[type="radio"] {
+    background: #1e293b;
+    border-color: #475569;
+  }
+  
+  .form-checkbox:hover input[type="checkbox"],
+  .form-radio:hover input[type="radio"] {
+    border-color: #64748b;
+  }
+  
+  .form-actions {
+    border-top-color: #475569;
+  }
+}
+
+/* ============================================================================
+ * MOBILE-FIRST LOGIN MODAL - MODERN MODAL DESIGN
+ * ============================================================================ */
+
+/* Login Modal Overlay */
+.login-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 1rem;
+  animation: modalFadeIn 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes modalFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Login Modal Container */
+.login-modal-container {
+  background: #ffffff;
+  border-radius: 20px;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25), 0 8px 16px -4px rgba(0, 0, 0, 0.1);
+  border: 1px solid #f1f5f9;
+  max-width: 100%;
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto;
+  overflow: hidden;
+  animation: modalSlideIn 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+}
+
+@keyframes modalSlideIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95) translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+/* Login Modal Header */
+.login-modal-header {
+  background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+  padding: 1.5rem;
+  border-bottom: 1px solid #e2e8f0;
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+/* Login Modal Logo */
+.login-modal-logo {
+  width: 3rem;
+  height: 3rem;
+  background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  box-shadow: 0 4px 8px rgba(59, 130, 246, 0.2);
+  position: relative;
+  overflow: hidden;
+}
+
+.login-modal-logo::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0) 100%);
+  border-radius: 12px;
+}
+
+.login-modal-logo svg {
+  width: 1.5rem;
+  height: 1.5rem;
+  color: white;
+  position: relative;
+  z-index: 1;
+}
+
+/* Login Modal Title Section */
+.login-modal-title-section {
+  flex: 1;
+  min-width: 0;
+}
+
+.login-modal-title {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, sans-serif;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #1e293b;
+  line-height: 1.3;
+  margin: 0 0 0.25rem 0;
+  letter-spacing: -0.025em;
+}
+
+.login-modal-subtitle {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, sans-serif;
+  font-size: 0.875rem;
+  color: #64748b;
+  line-height: 1.4;
+  margin: 0;
+}
+
+/* Login Modal Close Button */
+.login-modal-close {
+  width: 2rem;
+  height: 2rem;
+  border-radius: 8px;
+  border: none;
+  background: transparent;
+  color: #64748b;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.login-modal-close::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: #f1f5f9;
+  border-radius: 8px;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.login-modal-close:hover::before {
+  opacity: 1;
+}
+
+.login-modal-close:hover {
+  color: #374151;
+  transform: scale(1.05);
+}
+
+.login-modal-close:active {
+  transform: scale(0.95);
+}
+
+.login-modal-close:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.login-modal-close svg {
+  width: 1.25rem;
+  height: 1.25rem;
+  position: relative;
+  z-index: 1;
+}
+
+/* Login Modal Form */
+.login-modal-form {
+  padding: 1.5rem;
+}
+
+.login-modal-form .form-group {
+  margin-bottom: 1.5rem;
+}
+
+.login-modal-form .form-group:last-of-type {
+  margin-bottom: 2rem;
+}
+
+.login-modal-form .form-label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, sans-serif;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #374151;
+  margin-bottom: 0.5rem;
+  line-height: 1.4;
+}
+
+.login-modal-form .form-label svg {
   width: 1rem;
   height: 1rem;
-  color: var(--primary-color);
-  background-color: #f3f4f6;
-  border-color: #d1d5db;
-  border-radius: var(--radius-sm);
+  color: #64748b;
+  flex-shrink: 0;
 }
 
-.checkbox:focus {
-  outline: 2px solid var(--primary-color);
-  outline-offset: 2px;
-}
-
-/* Form section improvements */
-.form-section {
-  @apply space-y-6;
-}
-
-.form-group {
-  @apply space-y-2;
-}
-
-/* Enhanced Input Feedback */
-.input, select, textarea {
-  background: white;
-  color: rgb(39 39 42);
-  border: 1px solid rgb(228 228 231);
-  border-radius: 0.5rem;
+.login-modal-form .form-input {
+  width: 100%;
   padding: 0.75rem 1rem;
+  border: 1px solid #d1d5db;
+  border-radius: 10px;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, sans-serif;
   font-size: 0.875rem;
-  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  color: #1f2937;
+  background: #ffffff;
+  transition: all 0.2s ease;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  min-height: 44px; /* Touch-friendly minimum height */
+}
+
+.login-modal-form .form-input:focus {
   outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1), 0 1px 3px rgba(0, 0, 0, 0.05);
 }
 
-.input:focus, select:focus, textarea:focus {
-  outline: none;
-  border-color: rgb(37 99 235);
-  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1), 0 2px 4px rgba(0, 0, 0, 0.1);
-  transform: translateY(-1px);
+.login-modal-form .form-input:hover {
+  border-color: #9ca3af;
 }
 
-.input:placeholder, select:placeholder, textarea:placeholder {
-  color: rgb(156 163 175);
+.login-modal-form .form-input::placeholder {
+  color: #9ca3af;
 }
 
-/* Success/Error States for Inputs */
-.input.error {
-  border-color: #ef4444;
-  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
-  animation: shake 0.5s ease-in-out;
+.login-modal-form .form-help {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, sans-serif;
+  font-size: 0.75rem;
+  color: #6b7280;
+  margin-top: 0.25rem;
+  line-height: 1.4;
 }
 
-.input.success {
-  border-color: #10b981;
-  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+/* Login Modal Form Actions */
+.login-modal-form .form-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid #e5e7eb;
 }
 
-/* Form Validation Animations */
-.input-error {
-  animation: shake 0.5s ease-in-out;
-  border-color: #ef4444 !important;
-  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1) !important;
+.login-modal-form .form-actions .btn {
+  width: 100%;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  font-weight: 600;
+  min-height: 48px;
 }
 
-.input-success {
-  border-color: #10b981 !important;
-  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1) !important;
+.login-modal-form .form-actions .btn svg {
+  width: 1.125rem;
+  height: 1.125rem;
 }
 
-@keyframes shake {
-  0%, 100% { transform: translateX(0); }
-  10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
-  20%, 40%, 60%, 80% { transform: translateX(5px); }
+/* Tablet Styles */
+@media (min-width: 768px) {
+  .login-modal-overlay {
+    padding: 2rem;
+  }
+  
+  .login-modal-container {
+    max-width: 450px;
+  }
+  
+  .login-modal-header {
+    padding: 2rem;
+  }
+  
+  .login-modal-logo {
+    width: 3.5rem;
+    height: 3.5rem;
+  }
+  
+  .login-modal-logo svg {
+    width: 1.75rem;
+    height: 1.75rem;
+  }
+  
+  .login-modal-title {
+    font-size: 1.375rem;
+  }
+  
+  .login-modal-subtitle {
+    font-size: 0.9375rem;
+  }
+  
+  .login-modal-close {
+    width: 2.5rem;
+    height: 2.5rem;
+  }
+  
+  .login-modal-close svg {
+    width: 1.5rem;
+    height: 1.5rem;
+  }
+  
+  .login-modal-form {
+    padding: 2rem;
+  }
+  
+  .login-modal-form .form-actions {
+    flex-direction: row;
+    gap: 1rem;
+  }
+  
+  .login-modal-form .form-actions .btn {
+    width: auto;
+    flex: 1;
+  }
+}
+
+/* Desktop Styles */
+@media (min-width: 1024px) {
+  .login-modal-overlay {
+    padding: 2.5rem;
+  }
+  
+  .login-modal-container {
+    max-width: 500px;
+  }
+  
+  .login-modal-header {
+    padding: 2.5rem;
+  }
+  
+  .login-modal-logo {
+    width: 4rem;
+    height: 4rem;
+  }
+  
+  .login-modal-logo svg {
+    width: 2rem;
+    height: 2rem;
+  }
+  
+  .login-modal-title {
+    font-size: 1.5rem;
+  }
+  
+  .login-modal-subtitle {
+    font-size: 1rem;
+  }
+  
+  .login-modal-close {
+    width: 3rem;
+    height: 3rem;
+  }
+  
+  .login-modal-close svg {
+    width: 1.75rem;
+    height: 1.75rem;
+  }
+  
+  .login-modal-form {
+    padding: 2.5rem;
+  }
+  
+  .login-modal-form .form-input {
+    font-size: 1rem;
+    padding: 1rem 1.25rem;
+  }
+  
+  .login-modal-form .form-label {
+    font-size: 1rem;
+  }
+  
+  .login-modal-form .form-actions .btn {
+    padding: 1rem 2rem;
+    font-size: 1rem;
+  }
+}
+
+/* Large Desktop Styles */
+@media (min-width: 1280px) {
+  .login-modal-overlay {
+    padding: 3rem;
+  }
+  
+  .login-modal-container {
+    max-width: 550px;
+  }
+  
+  .login-modal-header {
+    padding: 3rem;
+  }
+  
+  .login-modal-logo {
+    width: 4.5rem;
+    height: 4.5rem;
+  }
+  
+  .login-modal-logo svg {
+    width: 2.25rem;
+    height: 2.25rem;
+  }
+  
+  .login-modal-title {
+    font-size: 1.625rem;
+  }
+  
+  .login-modal-subtitle {
+    font-size: 1.0625rem;
+  }
+  
+  .login-modal-close {
+    width: 3.5rem;
+    height: 3.5rem;
+  }
+  
+  .login-modal-close svg {
+    width: 2rem;
+    height: 2rem;
+  }
+  
+  .login-modal-form {
+    padding: 3rem;
+  }
+  
+  .login-modal-form .form-input {
+    font-size: 1.0625rem;
+    padding: 1.125rem 1.5rem;
+  }
+  
+  .login-modal-form .form-label {
+    font-size: 1.0625rem;
+  }
+  
+  .login-modal-form .form-actions .btn {
+    padding: 1.125rem 2.5rem;
+    font-size: 1.0625rem;
+  }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  .login-modal-container {
+    background: #1e293b;
+    border-color: #334155;
+  }
+  
+  .login-modal-header {
+    background: linear-gradient(135deg, #334155 0%, #475569 100%);
+    border-bottom-color: #475569;
+  }
+  
+  .login-modal-title {
+    color: #f1f5f9;
+  }
+  
+  .login-modal-subtitle {
+    color: #94a3b8;
+  }
+  
+  .login-modal-close::before {
+    background: #475569;
+  }
+  
+  .login-modal-close:hover {
+    color: #f1f5f9;
+  }
+  
+  .login-modal-form .form-label {
+    color: #f1f5f9;
+  }
+  
+  .login-modal-form .form-label svg {
+    color: #94a3b8;
+  }
+  
+  .login-modal-form .form-input {
+    background: #334155;
+    border-color: #475569;
+    color: #f1f5f9;
+  }
+  
+  .login-modal-form .form-input:focus {
+    border-color: #3b82f6;
+  }
+  
+  .login-modal-form .form-input:hover {
+    border-color: #64748b;
+  }
+  
+  .login-modal-form .form-input::placeholder {
+    color: #64748b;
+  }
+  
+  .login-modal-form .form-help {
+    color: #94a3b8;
+  }
+  
+  .login-modal-form .form-actions {
+    border-top-color: #475569;
+  }
 }

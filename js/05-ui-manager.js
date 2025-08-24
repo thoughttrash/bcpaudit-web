@@ -147,6 +147,10 @@ const UI = {
     try {
       const roleSelection = document.getElementById('roleSelection');
       const mainApp = document.getElementById('mainApp');
+      const header = document.getElementById('mainHeader');
+      
+      console.log('transitionToDashboard called');
+      console.log('Elements found:', { roleSelection: !!roleSelection, mainApp: !!mainApp, header: !!header });
       
       if (roleSelection && mainApp) {
         roleSelection.classList.add('page-exit');
@@ -155,6 +159,16 @@ const UI = {
         
         roleSelection.style.display = 'none';
         mainApp.style.display = 'block';
+        
+        // Show the header when transitioning to dashboard
+        if (header) {
+          console.log('Showing header...');
+          header.style.display = 'block';
+          console.log('Header display style after setting:', header.style.display);
+        } else {
+          console.error('Header element not found!');
+        }
+        
         mainApp.classList.add('page-enter');
         
         await new Promise(resolve => setTimeout(resolve, 400));
@@ -169,6 +183,7 @@ const UI = {
     try {
       const roleSelection = document.getElementById('roleSelection');
       const mainApp = document.getElementById('mainApp');
+      const header = document.getElementById('mainHeader');
       
       if (roleSelection && mainApp) {
         mainApp.classList.add('page-exit');
@@ -176,6 +191,12 @@ const UI = {
         setTimeout(() => {
           mainApp.style.display = 'none';
           roleSelection.style.display = 'flex';
+          
+          // Hide the header when going back to role selection
+          if (header) {
+            header.style.display = 'none';
+          }
+          
           roleSelection.classList.add('page-enter');
           
           setTimeout(() => {

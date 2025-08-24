@@ -2,7 +2,7 @@
  * AUDIT INTERFACE LAYOUT - DIGITAL AUDIT TOOL POSITIONING
  * ============================================================================ */
 
-/* Digital Checklist Interface - Two Column Layout */
+/* Digital Checklist Interface - Single Column Layout */
 #digital-checklist-interface {
   display: flex;
   flex-direction: column;
@@ -18,51 +18,168 @@
   padding: 1rem 1.5rem;
 }
 
-/* Main Content Area - Two Column Layout */
+/* Main Content Area - Single Column Layout */
 #digital-checklist-interface .flex-1 {
   display: flex;
+  flex-direction: column;
   flex: 1;
   overflow: hidden;
+  position: relative;
 }
 
-/* Left Panel - Session Details */
-.audit-session-panel {
-  width: 300px;
+/* Information Button and Overlay */
+.info-button-container {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  z-index: 10;
+}
+
+.info-button {
+  width: 2.5rem;
+  height: 2.5rem;
+  background: var(--primary-color);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.info-button:hover {
+  background: var(--primary-hover);
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.info-button:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3);
+}
+
+/* Info Overlay */
+.info-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  backdrop-filter: blur(4px);
+}
+
+.info-overlay.active {
+  display: flex;
+}
+
+.info-overlay-content {
   background: var(--bg-secondary);
-  border-right: 1px solid var(--border-color);
+  border: 1px solid var(--border-color);
+  border-radius: 0.75rem;
   padding: 2rem;
-  display: flex;
-  flex-direction: column;
-  flex-shrink: 0;
+  max-width: 400px;
+  width: 90%;
+  max-height: 80vh;
+  overflow-y: auto;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
 }
 
-.audit-session-title {
-  font-size: 1.5rem;
-  font-weight: 700;
+.info-overlay-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--border-light);
+}
+
+.info-overlay-title {
+  font-size: 1.25rem;
+  font-weight: 600;
   color: var(--text-primary);
-  margin-bottom: 0.5rem;
-  line-height: 1.2;
+  margin: 0;
 }
 
-.audit-session-date {
-  font-size: 1rem;
+.info-overlay-close {
+  background: none;
+  border: none;
   color: var(--text-secondary);
-  margin-bottom: 2rem;
+  cursor: pointer;
+  padding: 0.25rem;
+  border-radius: 0.25rem;
+  transition: all 0.2s ease;
 }
 
-.audit-session-actions {
+.info-overlay-close:hover {
+  background: var(--bg-tertiary);
+  color: var(--text-primary);
+}
+
+.info-overlay-body {
+  margin-bottom: 1.5rem;
+}
+
+.info-item {
   display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  margin-top: auto;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid var(--border-light);
 }
 
-/* Right Panel - Audit Content */
+.info-item:last-child {
+  border-bottom: none;
+}
+
+.info-label {
+  font-weight: 500;
+  color: var(--text-secondary);
+  font-size: 0.875rem;
+}
+
+.info-value {
+  color: var(--text-primary);
+  font-weight: 400;
+  text-align: right;
+}
+
+.info-date-input {
+  padding: 0.5rem;
+  border: 1px solid var(--border-color);
+  border-radius: 0.375rem;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  font-size: 0.875rem;
+  transition: border-color 0.2s ease;
+}
+
+.info-date-input:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.info-overlay-actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: flex-end;
+}
+
+/* Main Content Panel */
 .audit-content-panel {
   flex: 1;
   padding: 2rem;
   overflow-y: auto;
   background: var(--bg-primary);
+  margin-top: 3rem; /* Space for info button */
 }
 
 /* Progress Section */
@@ -191,39 +308,55 @@
 
 /* Responsive Design */
 @media (max-width: 1024px) {
-  .audit-session-panel {
-    width: 280px;
+  .audit-content-panel {
     padding: 1.5rem;
   }
   
-  .audit-content-panel {
-    padding: 1.5rem;
+  .info-overlay-content {
+    max-width: 350px;
   }
 }
 
 @media (max-width: 768px) {
-  #digital-checklist-interface .flex-1 {
-    flex-direction: column;
-  }
-  
-  .audit-session-panel {
-    width: 100%;
-    border-right: none;
-    border-bottom: 1px solid var(--border-color);
-    padding: 1rem;
-  }
-  
   .audit-content-panel {
     padding: 1rem;
+    margin-top: 2.5rem; /* Less space for info button on mobile */
   }
   
-  .audit-session-actions {
-    flex-direction: row;
-    gap: 0.5rem;
+  .info-button {
+    width: 2.25rem;
+    height: 2.25rem;
+    top: 0.75rem;
+    right: 0.75rem;
   }
   
-  .audit-session-actions .btn {
-    flex: 1;
+  .info-overlay-content {
+    max-width: 90%;
+    padding: 1.5rem;
+    margin: 1rem;
+  }
+  
+  .info-overlay-actions {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+  
+  .info-overlay-actions .btn {
+    width: 100%;
+  }
+  
+  .checklist-item {
+    padding: 1rem;
+  }
+  
+  .checklist-item-icon {
+    width: 1.75rem;
+    height: 1.75rem;
+  }
+  
+  .checklist-item-icon svg {
+    width: 0.875rem;
+    height: 0.875rem;
   }
 }
 
@@ -260,5 +393,381 @@
   
   .audit-progress-bar {
     background: var(--dark-bg-tertiary);
+  }
+}
+
+/* Start Audit Icon Button */
+.start-audit-icon-btn {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.start-audit-icon-btn:hover {
+  transform: scale(1.05);
+}
+
+.start-audit-icon-btn:hover .w-16 {
+  background: rgb(59 130 246);
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+}
+
+.start-audit-icon-btn:hover .text-blue-600 {
+  color: white;
+}
+
+.start-audit-icon-btn:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.start-audit-icon-btn:active {
+  transform: scale(0.95);
+}
+
+/* Dark mode support for start audit icon button */
+@media (prefers-color-scheme: dark) {
+  .start-audit-icon-btn:hover .w-16 {
+    background: rgb(59 130 246);
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
+  }
+  
+  .start-audit-icon-btn:hover .text-blue-600 {
+    color: white;
+  }
+  
+  .start-audit-icon-btn:focus {
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+  }
+}
+
+/* ============================================================================
+ * BREADCRUMB NAVIGATION
+ * ============================================================================ */
+
+.breadcrumb-nav {
+  margin-bottom: 0.5rem;
+}
+
+.breadcrumb-list {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  font-size: 0.875rem;
+}
+
+.breadcrumb-item {
+  display: flex;
+  align-items: center;
+}
+
+.breadcrumb-separator {
+  margin: 0 0.5rem;
+  color: var(--text-muted);
+  font-weight: 300;
+}
+
+.breadcrumb-link {
+  color: var(--primary-color);
+  text-decoration: none;
+  background: none;
+  border: none;
+  padding: 0;
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.breadcrumb-link:hover {
+  color: var(--primary-hover);
+  text-decoration: underline;
+}
+
+.breadcrumb-current {
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+/* ============================================================================
+ * ENHANCED SESSION INFO SECTION
+ * ============================================================================ */
+
+.session-info-section {
+  margin-bottom: 2rem;
+}
+
+.audit-date-section {
+  margin-top: 1rem;
+  padding: 1rem;
+  background: var(--bg-tertiary);
+  border-radius: 0.5rem;
+  border: 1px solid var(--border-light);
+}
+
+.audit-date-label {
+  display: flex;
+  align-items: center;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  margin-bottom: 0.5rem;
+}
+
+.audit-date-input {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid var(--border-color);
+  border-radius: 0.375rem;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  font-size: 0.875rem;
+  transition: border-color 0.2s ease;
+}
+
+.audit-date-input:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+/* ============================================================================
+ * ENHANCED PROGRESS SECTION
+ * ============================================================================ */
+
+.progress-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.audit-progress-count {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+/* ============================================================================
+ * ENHANCED CHECKLIST ITEMS WITH ICONS - FULLY CLICKABLE
+ * ============================================================================ */
+
+.checklist-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  padding: 1.5rem;
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border-light);
+  border-radius: 0.5rem;
+  transition: all 0.2s ease;
+  position: relative;
+  cursor: pointer;
+  user-select: none;
+}
+
+.checklist-item:hover {
+  background: var(--bg-hover);
+  border-color: var(--primary-color);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.checklist-item.checked {
+  background: var(--bg-hover);
+  border-color: var(--primary-color);
+  box-shadow: 0 2px 8px rgba(59, 130, 246, 0.15);
+}
+
+.checklist-item-icon {
+  flex-shrink: 0;
+  width: 2rem;
+  height: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--primary-color);
+  color: white;
+  border-radius: 0.375rem;
+  margin-top: 0.125rem;
+  transition: all 0.2s ease;
+}
+
+.checklist-item.checked .checklist-item-icon {
+  background: var(--primary-color);
+  transform: scale(1.05);
+}
+
+.checklist-item-icon svg {
+  width: 1rem;
+  height: 1rem;
+}
+
+.checklist-checkbox {
+  flex-shrink: 0;
+  width: 1.25rem;
+  height: 1.25rem;
+  border: 2px solid var(--border-color);
+  border-radius: 0.25rem;
+  background: var(--bg-primary);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-top: 0.125rem;
+  pointer-events: none; /* Disable direct checkbox interaction */
+}
+
+.checklist-checkbox:checked {
+  background: var(--primary-color);
+  border-color: var(--primary-color);
+}
+
+.checklist-content {
+  flex: 1;
+}
+
+.checklist-item-title {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 0.25rem;
+  line-height: 1.4;
+  transition: color 0.2s ease;
+}
+
+.checklist-item.checked .checklist-item-title {
+  color: var(--text-primary);
+}
+
+.checklist-item-description {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
+  transition: color 0.2s ease;
+}
+
+.checklist-item.checked .checklist-item-description {
+  color: var(--text-secondary);
+}
+
+/* ============================================================================
+ * ENHANCED VISUAL HIERARCHY
+ * ============================================================================ */
+
+.assessment-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 0.5rem;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.assessment-description {
+  font-size: 1rem;
+  color: var(--text-secondary);
+  margin-bottom: 2rem;
+  line-height: 1.5;
+  font-weight: 400;
+}
+
+/* Dark mode support for new components */
+@media (prefers-color-scheme: dark) {
+  .breadcrumb-link {
+    color: rgb(59 130 246);
+  }
+  
+  .breadcrumb-link:hover {
+    color: rgb(96 165 250);
+  }
+  
+  .breadcrumb-current {
+    color: var(--dark-text-secondary);
+  }
+  
+  .info-button {
+    background: rgb(59 130 246);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  }
+  
+  .info-button:hover {
+    background: rgb(37 99 235);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+  }
+  
+  .info-overlay-content {
+    background: var(--dark-bg-secondary);
+    border-color: var(--dark-border);
+  }
+  
+  .info-overlay-title {
+    color: var(--dark-text-primary);
+  }
+  
+  .info-overlay-close {
+    color: var(--dark-text-secondary);
+  }
+  
+  .info-overlay-close:hover {
+    background: var(--dark-bg-tertiary);
+    color: var(--dark-text-primary);
+  }
+  
+  .info-label {
+    color: var(--dark-text-secondary);
+  }
+  
+  .info-value {
+    color: var(--dark-text-primary);
+  }
+  
+  .info-date-input {
+    background: var(--dark-bg-primary);
+    border-color: var(--dark-border);
+    color: var(--dark-text-primary);
+  }
+  
+  .info-date-input:focus {
+    border-color: rgb(59 130 246);
+  }
+  
+  .checklist-item-icon {
+    background: rgb(59 130 246);
+  }
+  
+  .checklist-item:hover {
+    background: var(--dark-bg-tertiary);
+    border-color: rgb(59 130 246);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  }
+  
+  .checklist-item.checked {
+    background: var(--dark-bg-tertiary);
+    border-color: rgb(59 130 246);
+    box-shadow: 0 2px 8px rgba(59, 130, 246, 0.2);
+  }
+  
+  .checklist-item.checked .checklist-item-icon {
+    background: rgb(59 130 246);
+  }
+  
+  .assessment-title {
+    color: var(--dark-text-primary);
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+  }
+  
+  .assessment-description {
+    color: var(--dark-text-secondary);
+  }
+  
+  .checklist-item-title {
+    color: var(--dark-text-primary);
+  }
+  
+  .checklist-item-description {
+    color: var(--dark-text-secondary);
   }
 }
